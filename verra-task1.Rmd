@@ -1,0 +1,454 @@
+---
+title: Task 1. Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010
+author: "SMurphy"
+date: "2023-12-04"
+output: 
+  github_document:
+    toc: TRUE
+    toc_depth: 5
+    df_print: "paged"
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE, message = FALSE, warning=FALSE, error=FALSE}
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE, knitr.table.format = "html")
+library(readxl)
+library(magrittr)
+library(janitor)
+library(ggplot2)
+library(dplyr)
+library(RColorBrewer)
+library(psych)
+library(useful)
+library(caret)
+library(tibble)
+library(DescTools)
+library(animation)
+library(ModelMetrics)
+library(knitr)
+library(kableExtra)
+library(rmarkdown)
+library(dataMaid)
+library(animation)
+library(DT)
+library(gtsummary)
+library(data.table)
+pacman::p_load(
+  rio,          
+  here,         
+  skimr,        
+  tidyverse,    
+  gtsummary,    
+  rstatix,      
+  janitor,    
+  scales,   
+  flextable 
+  )
+
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  error = FALSE, comment = NA, tidy.opts = list(width.cutoff = 60), tidy = "styler"
+)
+```
+
+# Introduction
+
+The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes". A condensed script including only essential functions of this tool is reproduced in [Appendix I](#appendix1).
+
+A number of empricial assumptions were made including sourcing of pre-existing inventory dataset with pre-defined format and values published in the exercise's document ('Program Officer Technology Solutions Seamus Murphy'). Using this table of observations, an excel spreadsheet was copied into and imported into an R environment as the dataframe '`dataset_raw'` and commited to the project's github repository [here](https://github.com/seamusrobertmurphy/verra-stage1-GHG-tool.git). In this original, unchanged dataset, assumptions of values can be viewed regarding sample strata, plot, species, tree, volume, species wood characteristics, and plot area.
+
+The following table presents a data dictionary of these values, along with descriptions of their units, variable labels, types and file structure. Documentation of the dataset as it was received in original format '`dataset_raw.xlsx`' and descriptions of output dataset '`dataset_tidy.xlsx'` are intended to enable reproducability, encourage collaboration and inform future procedures for data submissions from clients.
+
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| #### ~**Label** (original =\> transformed)~ | #### ~**File location**~        | #### ~**Variable description**~                                                                    | #### ~**Units, values**~ | #### ~**Type**~      |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"Volume.V.l.j.I.sp"=\> "volume"~           | ~'dataset_raw', 'dataset_tidy'~ | ~Whole stem volume of living tree~                                                                 | ~m3~                     | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"Species..j." =\> "species_j"~             | ~'dataset_raw', 'dataset_tidy'~ | ~Tree species used at the species summary level.~                                                  | ~Sp1--Sp5~               | ~character~          |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"Stratum\...i." =\> 'stratum_i"~           | ~'dataset_raw', 'dataset_tidy'~ | ~Free form text field identifying stratum of each plot.~                                           | ~1, 2~                   | ~integer \> Factor~  |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"Plot..sp." =\> "plot_sp"~                 | ~'dataset_raw', 'dataset_tidy'~ | ~Numerical identifier unique only within its stratum.~                                             | ~1, 2, 3~                | ~integer~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"Tree..l." =\> "tree_l"~                   | ~'dataset_raw', 'dataset_tidy'~ | ~Text field identifying tree observation unique only specific plot family of associated stratum.~  | ~t1 - t5~                | ~character\>numeric~ |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"bcef_r"~                                  | ~'dataset_raw', 'dataset_tidy'~ | ~Biomass conversion and expansion factor used to derive carbon stocks from timber volume~          | ~%~                      | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"cf"~                                      | ~'dataset_raw', 'dataset_tidy'~ | ~Carbon factor used to derive carbon stocks from volumes of extracted  timber~                     | ~%~                      | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"d"~                                       | ~'dataset_tidy',~               | ~Basic wood density represented as fraction of dry in tons to green volume~                        | ~%~                      | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"a_sp"~                                    | ~dataset_tidy~                  | ~Area in hectares of individual sample plots~                                                      | ~ha~                     | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"vji_sp_m3"~                               | ~dataset_tidy~                  | ~Sum volume of merchantable timber of a species from specific plots within specific stratum~       | ~m3~                     | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~"vji_ha_m3"~                               | ~dataset_tidy~                  | ~Mean volume per hectare of merchantable timber of a species in a specific stratum.~               | ~m3.ha-1~                | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~chb_ha_tC~                                 | ~dataset_tidy~                  | ~Mean volume of carbon in extracted timber of species in stratum using 'bcef_r' and 'cf' factors.~ | ~tC.ha-1~                | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+| ~cex_ha_tC~                                 | ~dataset_tidy~                  | ~Mean volume of carbon in extracted biomass of a species in a stratum using 'd' and 'cf' factors.~ | ~tC.ha-1~                | ~numeric~            |
++---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
+
+# 1.1 Import Data {#import}
+
+Import `dataset_raw` and write copy to `dataset_tidy`. Seed is set to `77777`.
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(77777)
+dataset_raw = read_excel("dataset_raw.xlsx")
+write.csv(dataset_raw, "dataset_tidy.csv", row.names = FALSE)
+dataset_tidy = read.csv("dataset_tidy.csv")
+dataset_tidy
+```
+
+# 1.2 Audit Data {#review}
+
+Examine structure, scan for errors, and save `dataMaid` audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
+
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=FALSE}
+str(dataset_tidy)
+dplyr::count(dataset_tidy, Species..j.)
+
+saveHTML(dataMaid::makeDataReport(
+  dataset_tidy,
+  output = "html",
+  codebook = TRUE,
+  onlyProblematic = TRUE,
+  visuals = setVisuals(all = "basicVisual"),
+  replace = TRUE
+))
+```
+
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=FALSE}
+str(dataset_tidy)
+dplyr::count(dataset_tidy, Species..j.)
+```
+
+# 1.3 Tidy Data {#transform}
+
+Tests identified one problematic entry in values of `Species..j.` variable and multiple naming issues inherited during data import. Variable relabelling ws carried out according to naming convention stated in exercise document, the symbology used in subsection equations 1-4 of 8.1.1 of the [VM0010 Verra Methodology](https://verra.org/wp-content/uploads/2018/03/VM0010-Methodology-for-IMF-LtPF-v1.3_0.pdf), and syntax standards provided in the [Tidyverse style guide](https://style.tidyverse.org/). This involved the following changes.
+
+-   Correct the case-sensitive error from `sp4` to `Sp4`.
+-   Convert or recode variables to reflec their class
+-   Remove spaces
+-   Use underscores between words
+-   Change to lowercase
+-   Warnings, messages turned to silent
+-   Space placed after commas
+-   Max 80 characters to chunks
+-   Comments limited to single line each
+-   `::` operator used to signpost installs & avoid package conflicts
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+data.table::setnames(dataset_tidy, old = "Stratum...i.", new = "stratum_i", skip_absent = TRUE)
+data.table::setnames(dataset_tidy, old = "Species..j.", new = "species_j", skip_absent = TRUE)
+data.table::setnames(dataset_tidy, old = "Plot..sp.", new = "plot_sp", skip_absent = TRUE)
+data.table::setnames(dataset_tidy, old = "Tree..l.", new = "tree_l", skip_absent = TRUE)
+data.table::setnames(dataset_tidy, old = "Volume..V_.l.j.I.sp..", new = "volume", skip_absent = TRUE)
+dataset_tidy$species_j[dataset_tidy$species_j == "sp4"] <- "Sp4"
+dataset_tidy$species_j = as.factor(dataset_tidy$species_j)
+dataset_tidy$stratum_i <- as.factor(dataset_tidy$stratum_i)
+```
+
+<br>
+
+Derive new variable columns using values provided in the exercise document. Compute additional variables of area estimates at different units and scales:
+
+-   `bcef_r`: Biomass expansion factor applicable to wood removals (t.d.m m^-3^).
+-   `cf`: Carbon fraction of biomass of species (tCt d.m.^-1^)
+-   `d`: Basic wood density of species (t d.m. m^-3^)
+-   `a_sp`: Total area of plot in hectares (ha)
+-   `a_sp_m2`: Total area of plot in metres squared (m^2^)
+-   `a_I_m2`: Total area of stratum in metres squared (m^2^)
+-   `a_I_ha`: Total area of stratum in hectares (ha)
+
+Tabulate, confirm and write to directory.
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+dataset_tidy$bcef_r <- 0.7
+dataset_tidy$cf <- 0.5
+dataset_tidy$d <- 0.5
+dataset_tidy$a_sp <- 0.1
+dataset_tidy$a_sp_m2 <- dataset_tidy$a_sp * 10000
+
+dataset_tidy = dataset_tidy %>%
+  group_by(stratum_i) %>%
+  mutate(a_I_m2 = sum(a_sp_m2), a_I_ha = sum(a_sp))
+
+dataset_tidy %>% 
+  select(stratum_i, species_j, plot_sp, tree_l, volume) %>% 
+  tbl_summary(
+    by = species_j,
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} / {N} ({p}%)"),
+    digits = all_continuous() ~ 1,
+    type = all_categorical() ~ "categorical",
+    label = list(stratum_i ~ "Strata",
+                 species_j ~ "Species", 
+                 plot_sp ~ "Plot ID#", 
+                 tree_l ~ "Tree ID#", 
+                 volume ~ "Biomass Volume (m3)"), 
+              missing_text ="Missing"
+              )
+write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
+```
+
+<br>
+
+# Compute GHG Equations
+
+# 2.1 Biomass Volumes at Plot Level (Eq1)
+
+Note all four equations that follow derive estimates according to specific species, whether measured at the plot level, stratum or globally. Hence, caution is advised when computing initial, absolute estimates and when deriving or applying hectare expansion factors.
+
+On page 19 of the VM0010 Methodology, 'equation 1' provides calculation of merchantable timber volume of a species at the plot level. This is estimated in m^3^ as follows:
+
+<br>
+
+|                                                      $V_{j,i|BSL} = \sum_{l = 1}^{L} V_{l,j,i,sp}$
+
+<br>
+
+where $V_{j,i|BSL}$ refers to the [***sum***]{.underline} of merchantable volume of species *j* from plot *sp* in stratum *i.* For this, we run the following:
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+dataset_tidy <- dataset_tidy %>%
+  group_by(species_j, stratum_i, plot_sp) %>%
+  mutate(vji_sp_m3 = sum(volume))
+
+data.table::setDT(dataset_tidy)[, .(
+  vji_sp_m3 = sum(volume)
+),
+by = .(stratum_i, plot_sp, species_j)
+]
+```
+
+<br>
+
+# 2.2 Species Biomass at Strata Level (Eq2)
+
+On page 19 of the VM0010 Methodology, 'equation 2' provides calculation of merchantable timber volume of a species at the stratum level:
+
+<br>
+
+|                                                  $V_{j,i|BSL} = \displaystyle \frac{1}{SP} \sum_{sp=1}^{sp} \displaystyle \frac{V_{j,i,sp}}{A_{sp}}$
+
+<br>
+
+where $V_{j,i|BSL}$ refers to the [***mean***]{.underline} merchantable timber volume of species *j* measured across all plots within stratum *i*. Volume estimates are derived in terms of m^3^/ha^-1^ using an expansion factor derived as the ratio of plot area 1,000m^2^ to 10,000m^2^, as follows.
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+dataset_tidy <- dataset_tidy %>%
+  group_by(stratum_i, species_j) %>%
+  mutate(vji_ha_m3 = mean(vji_sp_m3) * 10)
+
+data.table::setDT(dataset_tidy)[, .(
+  vji_sp_m3,
+  vji_ha_m3 = mean(vji_sp_m3) * 10
+),
+by = .(stratum_i, species_j)
+]
+```
+
+<br>
+
+# 2.3 Carbon Stocks in Harvested Volumes (Eq3)
+
+On page 20 of the VM0010 Methodology, 'equation 3' provides calculation of carbon stock of harvested timber volumes for species *i* in stratum *i*.
+
+In the absence of harvest plan data, carbon stocks of commercial timber will be derived from the full inventory `dataset_tidy`.
+
+This differs to 'equation 3' below, which measures mean carbon stock from volumes of 'harvested biomass' $C_{HB,j,i|BSL}$ comprised of volumes estimates from extracted timber that is destined off-site for market sales, in addition to volume estimates from extracted timber that is remaining on-site due to damage or use during site operations and road construction. The difference in destinations of these carbon stocks means that alternative carbon factors must be applied in their calculation, as indicated in following two equations
+
+<br>
+
+|                             $C_{HB,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * BCEF_{R} * CF_{j}$
+
+<br>
+
+Carbon estimates are calculated in units of metric tons per hectare (tC/ha^-1^) by multiplying mean volume per hectare of extracted timber of species *i* from stratum *j* by the carbon fraction $CF$ and biomass conversion and expansion factor $BCEF_{R}$ of that species.
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+dataset_tidy <- dataset_tidy %>%
+  mutate(chb_ha_tC = vji_ha_m3 * bcef_r * cf)
+
+data.table::setDT(dataset_tidy)[, .(
+  vji_sp_m3,
+  vji_ha_m3,
+  chb_ha_tC = vji_ha_m3 * bcef_r * cf),
+  by = .(stratum_i, species_j)
+]
+```
+
+<br>
+
+# 2.4 Carbon Stocks in Extracted Volumes (Eq4)
+
+On page 21 of the VM0010 Methodology, 'equation 4' provides calculation of mean estimates of carbon stocks of species *i* in stratum *j,* by multiplying the species' value of basic wood density $D$ by its carbon fraction $CF$ by its mean volume of extracted biomass per hectare. Estimates of carbon stocks are derived in terms of metric tons per hectare tC.ha^-1^ using the following formula:
+
+<br>
+
+|                                   $C_{EX,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * D_{j} * CF_{j}$
+
+<br>
+
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+dataset_tidy <- dataset_tidy %>%
+  mutate(cex_ha_tC = vji_ha_m3 * d * cf)
+
+data.table::setDT(dataset_tidy)[, .(
+  vji_sp_m3, 
+  vji_ha_m3, 
+  chb_ha_tC,
+  cex_ha_tC = vji_ha_m3 * d * cf),
+  by = .(stratum_i, species_j)
+]
+
+```
+
+# Additional Metrics
+
+```{r, warning=FALSE, error=FALSE, message=FALSE}
+# vJ_ha_m3: Mean volume by species across strata (m^3.ha-1)
+dataset_tidy <- dataset_tidy %>%
+  group_by(species_j) %>%
+  mutate(vJ_ha_m3 = mean(vji_sp_m3) * 10) 
+dataset_tidy[1:10,] %>%
+  select(stratum_i, species_j, 
+         plot_sp, vji_ha_m3, 
+         chb_ha_tC, cex_ha_tC, 
+         vJ_ha_m3) %>%
+  kbl(caption = "Table with right-hand showing mean biomass volume per species across all strata (m3.ha-1)", escape = T) %>%
+  kable_minimal(full_width=T)
+
+# VI_ha_m3: Mean volume by strata across species and plots (m^3.ha-1) 
+dataset_tidy <- dataset_tidy %>%
+  group_by(stratum_i) %>%
+  mutate(vI_ha_m3 = mean(vji_sp_m3) * 10)
+dataset_tidy[1:10,] %>%
+  select(stratum_i, species_j, 
+         plot_sp, vji_ha_m3, 
+         chb_ha_tC, cex_ha_tC, 
+         vJ_ha_m3, vI_ha_m3) %>%
+  kbl(caption = "Table with right-hand column showing mean biomass volume per strata across all species and plots (m3.ha-1)", escape = T) %>%
+  kable_minimal(full_width=T)
+
+
+# Vsp_ha_n3: Total volume per plot (m^3.ha-1)
+dataset_tidy = dataset_tidy %>%
+  group_by(plot_sp, stratum_i) %>%
+  mutate(Vsp_ha_m3 = sum(volume) * 10)
+dataset_tidy[1:10,] %>%
+  select(stratum_i, 
+         plot_sp, vji_ha_m3, 
+         chb_ha_tC, cex_ha_tC, 
+         vJ_ha_m3, vI_ha_m3,
+         vI_ha_m3, Vsp_ha_m3) %>%
+  kbl(caption = "Table with right-hand column showing total biomass per plot across species (m3.ha-1)", escape = T) %>%
+  kable_minimal(full_width=T)
+```
+
+# Regression Diagnostics
+
+For demonstration purposes only, an ordinary-least-squared (OLS) model was fitted with unscreened covariates from the above dataset and deployed to generate predictions of total standing timber over a site area of 100 hectares. From these predictions, derived residuals were acquired to showcase a number of diagnostic tools and accuracy metrics relevant to forest inventory analyses. This was a specifically diagnostic exercise not suited to informing or adjusting biomass estimates above. Instead this short test-run reported on techniques used in cross validation and tuning functions, encouraging discussion of model comparison and selections by potential clients.
+
+Variables were recoded numerically or converted to integers to enhance their operability. Additional set of packages were loaded at this stage as listed in the `requirements` variable below.
+
+```{r, eval=FALSE}
+requirements = install.packages(c(
+  "oslrr", "ggplot2", "autoplotly", "BiocManager", "ggbio",
+  "car", "psych", "useful", "caret",
+  "BIOMASS", "rvest", "lmfor", "DescTools",
+  "MLmetrics", "knitr", "phyloseq", "carData"), 
+  dependencies=TRUE)
+requirements
+```
+
+```{r, echo=FALSE}
+#library(oslrr)
+library(carData)
+library(ggplot2)
+library(autoplotly)
+library(ggbio)
+library(car)
+library(psych)
+library(useful)
+library(caret)
+library(BIOMASS)
+library(rvest)
+library(lmfor)
+#requirements
+```
+
+```{r, warning=FALSE, error=FALSE, message=FALSE}
+#str(dataset_tidy)
+dataset_tidy$stratum_i = as.integer(dataset_tidy$stratum_i)
+dataset_tidy$species_j = as.integer(dataset_tidy$species_j)
+model_lm1 <- lm(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_tidy)
+olsrr::ols_regress(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_tidy)
+
+#psych::describe(dataset_tidy$vji_ha_m3)
+#psych::describe(dataset_tidy$volume)
+#psych::describe(dataset_tidy$species_j)
+#psych::describe(dataset_tidy$stratum_i)
+
+shapiro.test(dataset_tidy$volume)
+shapiro.test(dataset_tidy$vji_ha_m3)
+```
+
+|              |          |        |        |              |
+|--------------|----------|--------|--------|--------------|
+| **Variable** | **Mean** | **SD** | **SE** | **Skewness** |
+| stratum_i    | 1.5      | 0.53   | 0.17   | 0.00         |
+| species_j    | 2.60     | 1.58   | 0.50   | 0.14         |
+| volume       | 3.00     | 1.15   | 0.36   | 0.36         |
+| vji_ha_m3    | 57.54    | 44.77  | 14.16  | 0.69         |
+
+```{r,warning=FALSE,message=FALSE,error=FALSE, echo=FALSE, fig.show='hold', out.width='33%'}
+olsrr::ols_plot_diagnostics(model_lm1)
+# Cooks-D measure of generalized influence
+olsrr::ols_plot_cooksd_bar(model_lm1)
+# Outliers plotted by deviance from zero-mean 
+olsrr::ols_plot_dfbetas(model_lm1)
+# Outliers plotted by coefficient trends
+olsrr::ols_plot_resid_lev(model_lm1)
+# Covariate effects on residuals
+olsrr::ols_plot_comp_plus_resid(model_lm1, print_plot = TRUE)
+# Normality of distribtion
+olsrr::ols_test_normality(model_lm1)
+# Heteroskedasticity test
+olsrr::ols_test_breusch_pagan(model_lm1)
+# Eignevalue of auto-correllation
+olsrr::ols_coll_diag(model_lm1)
+# Outlier test of Bonferroni & studentised residuals
+olsrr::ols_test_outlier(model_lm1)
+# Variance Inflation Factor each Covariate
+olsrr::ols_vif_tol(model_lm1)
+```
+
++--------+--------+--------+--------+----------+----------+---------+
+| Model  | SW     | BP     | BF     | stratum_i_VIF | species_j_VIF | volume_VIF |
++--------+--------+--------+--------+----------+----------+---------+
+| M1     | 0.918  | 0.375  | 0.609  | 1.078    | 1.212    | 1.131   |
++--------+--------+--------+--------+----------+----------+---------+
+| M2     |        |        |        |          |          |         |
++--------+--------+--------+--------+----------+----------+---------+
+| M3     |        |        |        |          |          |         |
++--------+--------+--------+--------+----------+----------+---------+
+
+# Appendix I: Codebook Derived {#appendix1}
+
+```{r, warning=FALSE, error=FALSE, message=FALSE}
+htmltools::includeHTML("dataMaid_dataset_tidy.html")
+```
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+library(gvlma)
+gvmodel = gvlma(model_lm1)
+summary(gvmodel)
+gvmodel_del <- deletion.gvlma(gvmodel)
+summary(gvmodel_del)
+plot(gvmodel_del)
+display.delstats
+summary.gvlmaDel 
+summary(gvmodel_del, allstats = FALSE)
+```
