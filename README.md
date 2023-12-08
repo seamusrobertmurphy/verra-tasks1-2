@@ -338,7 +338,7 @@ dataset_tidy %>%
   )
 ```
 
-preserve5ad8d621ab88dc16
+preserve216e6ad5961c0c65
 
 ``` r
 write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
@@ -1624,7 +1624,7 @@ shapiro.test(dataset_tidy$vji_ha_m3)
 htmltools::includeHTML("dataMaid_dataset_tidy.html")
 ```
 
-preservefda70ecacb873f79
+preservecf25fbb18a9c856f
 
 ``` r
 library(gvlma)
@@ -1831,7 +1831,7 @@ display.delstats
         rownames(z) <- pointlabels[flag]
         invisible(z)
     }
-    <bytecode: 0x564ac35fef00>
+    <bytecode: 0x55dbdcf29018>
     <environment: namespace:gvlma>
 
 ``` r
@@ -1905,7 +1905,7 @@ summary.gvlmaDel
         }
         invisible(as.data.frame(unusualobs))
     }
-    <bytecode: 0x564ac312c908>
+    <bytecode: 0x55dbdca56a20>
     <environment: namespace:gvlma>
 
 ``` r
@@ -1966,7 +1966,7 @@ externally, downloading locally, or running copies in different a Colab
 project. Note that full editor settings were enabled with this link
 allowing for code edits to be made by user.
 
-Task 1 Output File Name & Webpage: `verra_task1.ipynb`
+Task 2 Output File Name & Webpage: `verra_task2.ipynb`
 
 - <https://colab.research.google.com/drive/11izi_5-iYHOCWHwj17vWxWtlMPbglBiG?usp=sharing>
 

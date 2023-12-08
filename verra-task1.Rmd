@@ -467,7 +467,7 @@ The digital tool for Task 2 was derived on the Google Colab platform using pytho
 
 The Colab platform should also ensure simpler installation when sharing externally, downloading locally, or running copies in different a Colab project. Note that full editor settings were enabled with this link allowing for code edits to be made by user.
 
-Task 1 Output File Name & Webpage: `verra_task1.ipynb`
+Task 2 Output File Name & Webpage: `verra_task2.ipynb`
 
 -   <https://colab.research.google.com/drive/11izi_5-iYHOCWHwj17vWxWtlMPbglBiG?usp=sharing>
 
