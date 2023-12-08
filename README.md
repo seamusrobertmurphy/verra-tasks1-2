@@ -182,13 +182,19 @@ dataset_tidy = read.csv("dataset_tidy.csv")
 dataset_tidy
 ```
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Stratum...i."],"name":[1],"type":["int"],"align":["right"]},{"label":["Plot..sp."],"name":[2],"type":["int"],"align":["right"]},{"label":["Species..j."],"name":[3],"type":["chr"],"align":["left"]},{"label":["Tree..l."],"name":[4],"type":["chr"],"align":["left"]},{"label":["Volume..V_.l.j.I.sp.."],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"Sp1","4":"t1","5":"3.30"},{"1":"1","2":"1","3":"Sp1","4":"t2","5":"4.80"},{"1":"1","2":"1","3":"Sp1","4":"t3","5":"4.08"},{"1":"1","2":"2","3":"Sp4","4":"t1","5":"1.50"},{"1":"1","2":"2","3":"Sp4","4":"t2","5":"1.68"},{"1":"2","2":"1","3":"Sp1","4":"t1","5":"1.38"},{"1":"2","2":"1","3":"Sp2","4":"t2","5":"3.24"},{"1":"2","2":"1","3":"Sp3","4":"t3","5":"3.72"},{"1":"2","2":"1","3":"sp4","4":"t4","5":"2.94"},{"1":"2","2":"1","3":"Sp5","4":"t5","5":"3.36"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 10 × 5
+       Stratum...i. Plot..sp. Species..j. Tree..l. Volume..V_.l.j.I.sp..
+              <int>     <int> <chr>       <chr>                    <dbl>
+     1            1         1 Sp1         t1                        3.3 
+     2            1         1 Sp1         t2                        4.8 
+     3            1         1 Sp1         t3                        4.08
+     4            1         2 Sp4         t1                        1.5 
+     5            1         2 Sp4         t2                        1.68
+     6            2         1 Sp1         t1                        1.38
+     7            2         1 Sp2         t2                        3.24
+     8            2         1 Sp3         t3                        3.72
+     9            2         1 sp4         t4                        2.94
+    10            2         1 Sp5         t5                        3.36
 
 ## 1.2 Audit Data
 
@@ -220,13 +226,15 @@ saveHTML(dataMaid::makeDataReport(
      $ Tree..l.             : chr  "t1" "t2" "t3" "t1" ...
      $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Species..j."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Sp1","2":"4"},{"1":"Sp2","2":"1"},{"1":"Sp3","2":"1"},{"1":"Sp4","2":"2"},{"1":"Sp5","2":"1"},{"1":"sp4","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 6 × 2
+      Species..j.     n
+      <chr>       <int>
+    1 Sp1             4
+    2 Sp2             1
+    3 Sp3             1
+    4 Sp4             2
+    5 Sp5             1
+    6 sp4             1
 
 ## 1.3 Tidy Data
 
@@ -1044,13 +1052,16 @@ by = .(stratum_i, plot_sp, species_j)
 ]
 ```
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["stratum_i"],"name":[1],"type":["fct"],"align":["left"]},{"label":["plot_sp"],"name":[2],"type":["int"],"align":["right"]},{"label":["species_j"],"name":[3],"type":["fct"],"align":["left"]},{"label":["vji_sp_m3"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"Sp1","4":"12.18"},{"1":"1","2":"2","3":"Sp4","4":"3.18"},{"1":"2","2":"1","3":"Sp1","4":"1.38"},{"1":"2","2":"1","3":"Sp2","4":"3.24"},{"1":"2","2":"1","3":"Sp3","4":"3.72"},{"1":"2","2":"1","3":"Sp4","4":"2.94"},{"1":"2","2":"1","3":"Sp5","4":"3.36"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 7 × 4
+      stratum_i plot_sp species_j vji_sp_m3
+      <fct>       <int> <fct>         <dbl>
+    1 1               1 Sp1           12.2 
+    2 1               2 Sp4            3.18
+    3 2               1 Sp1            1.38
+    4 2               1 Sp2            3.24
+    5 2               1 Sp3            3.72
+    6 2               1 Sp4            2.94
+    7 2               1 Sp5            3.36
 
 <br>
 
@@ -1084,13 +1095,19 @@ by = .(stratum_i, species_j)
 ]
 ```
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["stratum_i"],"name":[1],"type":["fct"],"align":["left"]},{"label":["species_j"],"name":[2],"type":["fct"],"align":["left"]},{"label":["vji_sp_m3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["vji_ha_m3"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"Sp1","3":"12.18","4":"121.8"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8"},{"1":"2","2":"Sp1","3":"1.38","4":"13.8"},{"1":"2","2":"Sp2","3":"3.24","4":"32.4"},{"1":"2","2":"Sp3","3":"3.72","4":"37.2"},{"1":"2","2":"Sp4","3":"2.94","4":"29.4"},{"1":"2","2":"Sp5","3":"3.36","4":"33.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 10 × 4
+       stratum_i species_j vji_sp_m3 vji_ha_m3
+       <fct>     <fct>         <dbl>     <dbl>
+     1 1         Sp1           12.2      122. 
+     2 1         Sp1           12.2      122. 
+     3 1         Sp1           12.2      122. 
+     4 1         Sp4            3.18      31.8
+     5 1         Sp4            3.18      31.8
+     6 2         Sp1            1.38      13.8
+     7 2         Sp2            3.24      32.4
+     8 2         Sp3            3.72      37.2
+     9 2         Sp4            2.94      29.4
+    10 2         Sp5            3.36      33.6
 
 <br>
 
@@ -1135,13 +1152,19 @@ data.table::setDT(dataset_tidy)[, .(
 ]
 ```
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["stratum_i"],"name":[1],"type":["fct"],"align":["left"]},{"label":["species_j"],"name":[2],"type":["fct"],"align":["left"]},{"label":["vji_sp_m3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["vji_ha_m3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["chb_ha_tC"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8","5":"11.13"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8","5":"11.13"},{"1":"2","2":"Sp1","3":"1.38","4":"13.8","5":"4.83"},{"1":"2","2":"Sp2","3":"3.24","4":"32.4","5":"11.34"},{"1":"2","2":"Sp3","3":"3.72","4":"37.2","5":"13.02"},{"1":"2","2":"Sp4","3":"2.94","4":"29.4","5":"10.29"},{"1":"2","2":"Sp5","3":"3.36","4":"33.6","5":"11.76"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 10 × 5
+       stratum_i species_j vji_sp_m3 vji_ha_m3 chb_ha_tC
+       <fct>     <fct>         <dbl>     <dbl>     <dbl>
+     1 1         Sp1           12.2      122.      42.6 
+     2 1         Sp1           12.2      122.      42.6 
+     3 1         Sp1           12.2      122.      42.6 
+     4 1         Sp4            3.18      31.8     11.1 
+     5 1         Sp4            3.18      31.8     11.1 
+     6 2         Sp1            1.38      13.8      4.83
+     7 2         Sp2            3.24      32.4     11.3 
+     8 2         Sp3            3.72      37.2     13.0 
+     9 2         Sp4            2.94      29.4     10.3 
+    10 2         Sp5            3.36      33.6     11.8 
 
 <br>
 
@@ -1173,13 +1196,19 @@ data.table::setDT(dataset_tidy)[, .(
 ]
 ```
 
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["stratum_i"],"name":[1],"type":["fct"],"align":["left"]},{"label":["species_j"],"name":[2],"type":["fct"],"align":["left"]},{"label":["vji_sp_m3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["vji_ha_m3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["chb_ha_tC"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["cex_ha_tC"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63","6":"30.45"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63","6":"30.45"},{"1":"1","2":"Sp1","3":"12.18","4":"121.8","5":"42.63","6":"30.45"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8","5":"11.13","6":"7.95"},{"1":"1","2":"Sp4","3":"3.18","4":"31.8","5":"11.13","6":"7.95"},{"1":"2","2":"Sp1","3":"1.38","4":"13.8","5":"4.83","6":"3.45"},{"1":"2","2":"Sp2","3":"3.24","4":"32.4","5":"11.34","6":"8.10"},{"1":"2","2":"Sp3","3":"3.72","4":"37.2","5":"13.02","6":"9.30"},{"1":"2","2":"Sp4","3":"2.94","4":"29.4","5":"10.29","6":"7.35"},{"1":"2","2":"Sp5","3":"3.36","4":"33.6","5":"11.76","6":"8.40"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 10 × 6
+       stratum_i species_j vji_sp_m3 vji_ha_m3 chb_ha_tC cex_ha_tC
+       <fct>     <fct>         <dbl>     <dbl>     <dbl>     <dbl>
+     1 1         Sp1           12.2      122.      42.6      30.4 
+     2 1         Sp1           12.2      122.      42.6      30.4 
+     3 1         Sp1           12.2      122.      42.6      30.4 
+     4 1         Sp4            3.18      31.8     11.1       7.95
+     5 1         Sp4            3.18      31.8     11.1       7.95
+     6 2         Sp1            1.38      13.8      4.83      3.45
+     7 2         Sp2            3.24      32.4     11.3       8.1 
+     8 2         Sp3            3.72      37.2     13.0       9.3 
+     9 2         Sp4            2.94      29.4     10.3       7.35
+    10 2         Sp5            3.36      33.6     11.8       8.4 
 
 ## 3.1 Additional Metrics
 
@@ -2230,21 +2259,17 @@ shapiro.test(dataset_tidy$vji_ha_m3)
     3 0.08426133        6.567098 2.275283e-05 0.26599152 0.32764056 7.126742e-01
     4 0.03088264       10.847521 9.927259e-01 0.57804751 0.15874147 2.806942e-01
 
-<div data-pagedtable="false">
+    # A tibble: 1 × 3
+      studentized_residual unadjusted_p_val bonferroni_p_val
+                     <dbl>            <dbl>            <dbl>
+    1                 2.41           0.0609            0.609
 
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["studentized_residual"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["unadjusted_p_val"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["bonferroni_p_val"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2.408865","2":"0.06094943","3":"0.6094943","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
-
-<div data-pagedtable="false">
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Variables"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Tolerance"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["VIF"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"volume","2":"0.8842968","3":"1.130842"},{"1":"species_j","2":"0.8247492","3":"1.212490"},{"1":"stratum_i","2":"0.9278966","3":"1.077706"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-
-</div>
+    # A tibble: 3 × 3
+      Variables Tolerance   VIF
+      <chr>         <dbl> <dbl>
+    1 volume        0.884  1.13
+    2 species_j     0.825  1.21
+    3 stratum_i     0.928  1.08
 
 <img src="verra-task1_files/figure-gfm/unnamed-chunk-14-1.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-2.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-3.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-4.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-5.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-6.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-7.png" width="33%" />
 
@@ -3721,7 +3746,7 @@ display.delstats
         rownames(z) <- pointlabels[flag]
         invisible(z)
     }
-    <bytecode: 0x55eba8ebc958>
+    <bytecode: 0x555c9a820158>
     <environment: namespace:gvlma>
 
 ``` r
@@ -3795,7 +3820,7 @@ summary.gvlmaDel
         }
         invisible(as.data.frame(unusualobs))
     }
-    <bytecode: 0x55eba17148b0>
+    <bytecode: 0x555c9a32f730>
     <environment: namespace:gvlma>
 
 ``` r
