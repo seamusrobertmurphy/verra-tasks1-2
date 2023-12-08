@@ -3,11 +3,10 @@ title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solut
 author: "SMurphy"
 date: "2023-12-04"
 output: 
-  html_document:
+  github_document:
     toc: TRUE
     toc_depth: 5
-    df_print: tibble
-    keep_md: TRUE
+    df_print: paged
 always_allow_html: true
 ---
 
@@ -15,6 +14,13 @@ always_allow_html: true
 options(htmltools.dir.version = FALSE, 
         htmltools.preserve.raw = FALSE, 
         knitr.table.format = "html")
+ auto_set_format <- function() { 
+   if (knitr::is_latex_output()) { 
+     options(knitr.table.format = "latex") 
+   } else { 
+     options(knitr.table.format = "html") 
+   } 
+ } 
 library(readxl)
 library(magrittr)
 library(janitor)
@@ -108,7 +114,7 @@ dataset_tidy
 
 Examine structure, scan for errors, and save `dataMaid` audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=TRUE}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=FALSE}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
