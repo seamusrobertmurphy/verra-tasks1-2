@@ -1,5 +1,5 @@
 ---
-title: Task 1. Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010
+title: Technical Exercise for Program Officer Candidate; Verra Technology Solutions  
 author: "SMurphy"
 date: "2023-12-04"
 output: 
@@ -51,7 +51,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Introduction
+## Task 1 Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010
 
 The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes". A condensed script including only essential functions of this tool is reproduced in [Appendix I](#appendix1).
 
@@ -89,7 +89,7 @@ The following table presents a data dictionary of these values, along with descr
 | ~cex_ha_tC~                                 | ~dataset_tidy~                  | ~Mean volume of carbon in extracted biomass of a species in a stratum using 'd' and 'cf' factors.~ | ~tC.ha-1~                | ~numeric~            |
 +---------------------------------------------+---------------------------------+----------------------------------------------------------------------------------------------------+--------------------------+----------------------+
 
-# 1.1 Import Data {#import}
+## 1.1 Import Data
 
 Import `dataset_raw` and write copy to `dataset_tidy`. Seed is set to `77777`.
 
@@ -101,7 +101,7 @@ dataset_tidy = read.csv("dataset_tidy.csv")
 dataset_tidy
 ```
 
-# 1.2 Audit Data {#review}
+## 1.2 Audit Data
 
 Examine structure, scan for errors, and save `dataMaid` audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
 
@@ -115,7 +115,10 @@ saveHTML(dataMaid::makeDataReport(
   codebook = TRUE,
   onlyProblematic = TRUE,
   visuals = setVisuals(all = "basicVisual"),
+  img.name = "dataset_audit",
+  htmlfile = "dataset_audit",
   replace = TRUE
+  
 ))
 ```
 
@@ -124,7 +127,7 @@ str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```
 
-# 1.3 Tidy Data {#transform}
+## 1.3 Tidy Data
 
 Tests identified one problematic entry in values of `Species..j.` variable and multiple naming issues inherited during data import. Variable relabelling ws carried out according to naming convention stated in exercise document, the symbology used in subsection equations 1-4 of 8.1.1 of the [VM0010 Verra Methodology](https://verra.org/wp-content/uploads/2018/03/VM0010-Methodology-for-IMF-LtPF-v1.3_0.pdf), and syntax standards provided in the [Tidyverse style guide](https://style.tidyverse.org/). This involved the following changes.
 
@@ -195,9 +198,7 @@ write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
 
 <br>
 
-# Compute GHG Equations
-
-# 2.1 Biomass Volumes at Plot Level (Eq1)
+## 2.1 Compute Biomass at Plot Level (Eq1)
 
 Note all four equations that follow derive estimates according to specific species, whether measured at the plot level, stratum or globally. Hence, caution is advised when computing initial, absolute estimates and when deriving or applying hectare expansion factors.
 
@@ -225,7 +226,7 @@ by = .(stratum_i, plot_sp, species_j)
 
 <br>
 
-# 2.2 Species Biomass at Strata Level (Eq2)
+## 2.2 Compute Biomass at Strata Level (Eq2)
 
 On page 19 of the VM0010 Methodology, 'equation 2' provides calculation of merchantable timber volume of a species at the stratum level:
 
@@ -252,7 +253,7 @@ by = .(stratum_i, species_j)
 
 <br>
 
-# 2.3 Carbon Stocks in Harvested Volumes (Eq3)
+## 2.3 Compute Carbon in Harvested Volumes (Eq3)
 
 On page 20 of the VM0010 Methodology, 'equation 3' provides calculation of carbon stock of harvested timber volumes for species *i* in stratum *i*.
 
@@ -282,7 +283,7 @@ data.table::setDT(dataset_tidy)[, .(
 
 <br>
 
-# 2.4 Carbon Stocks in Extracted Volumes (Eq4)
+## 2.4 Compute Carbon in Extracted Volumes (Eq4)
 
 On page 21 of the VM0010 Methodology, 'equation 4' provides calculation of mean estimates of carbon stocks of species *i* in stratum *j,* by multiplying the species' value of basic wood density $D$ by its carbon fraction $CF$ by its mean volume of extracted biomass per hectare. Estimates of carbon stocks are derived in terms of metric tons per hectare tC.ha^-1^ using the following formula:
 
@@ -306,7 +307,7 @@ data.table::setDT(dataset_tidy)[, .(
 
 ```
 
-# Additional Metrics
+## 3.1 Additional Metrics
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
 # vJ_ha_m3: Mean volume by species across strata (m^3.ha-1)
@@ -346,13 +347,16 @@ dataset_tidy[1:10,] %>%
          vI_ha_m3, Vsp_ha_m3) %>%
   kbl(caption = "Table with right-hand column showing total biomass per plot across species (m3.ha-1)", escape = T) %>%
   kable_minimal(full_width=T)
+
+# Save output dataset
+write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
 ```
 
-# Regression Diagnostics
+## 3.2 Regression Diagnostics
 
 For demonstration purposes only, an ordinary-least-squared (OLS) model was fitted with unscreened covariates from the above dataset and deployed to generate predictions of total standing timber over a site area of 100 hectares. From these predictions, derived residuals were acquired to showcase a number of diagnostic tools and accuracy metrics relevant to forest inventory analyses. This was a specifically diagnostic exercise not suited to informing or adjusting biomass estimates above. Instead this short test-run reported on techniques used in cross validation and tuning functions, encouraging discussion of model comparison and selections by potential clients.
 
-Variables were recoded numerically or converted to integers to enhance their operability. Additional set of packages were loaded at this stage as listed in the `requirements` variable below.
+Variables were recoded as numerics or integers to fit functions below. Additional set of packages were loaded at this stage as listed in the `requirements` variable below.
 
 ```{r, eval=FALSE}
 requirements = install.packages(c(
@@ -426,20 +430,20 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-+--------+--------+--------+--------+----------+----------+---------+
-| Model  | SW     | BP     | BF     | stratum_i_VIF | species_j_VIF | volume_VIF |
-+--------+--------+--------+--------+----------+----------+---------+
-| M1     | 0.918  | 0.375  | 0.609  | 1.078    | 1.212    | 1.131   |
-+--------+--------+--------+--------+----------+----------+---------+
-| M2     |        |        |        |          |          |         |
-+--------+--------+--------+--------+----------+----------+---------+
-| M3     |        |        |        |          |          |         |
-+--------+--------+--------+--------+----------+----------+---------+
++-------+-------+-------+-------+-------+-------+--------------------------------+
+|       |       | Model | SW    | BP    | BF    | stratum_i_VIF \| species_j_VIF |
++-------+-------+-------+-------+-------+-------+--------------------------------+
+| M1    | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131                          |
++-------+-------+-------+-------+-------+-------+--------------------------------+
+| M2    |       |       |       |       |       |                                |
++-------+-------+-------+-------+-------+-------+--------------------------------+
+| M3    |       |       |       |       |       |                                |
++-------+-------+-------+-------+-------+-------+--------------------------------+
 
-# Appendix I: Codebook Derived {#appendix1}
+## Appendix I: Codebook Derived {#appendix1}
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-htmltools::includeHTML("dataMaid_dataset_tidy.html")
+htmltools::includeHTML("dataset_audit.html")
 ```
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
@@ -454,3 +458,16 @@ summary.gvlmaDel
 summary(gvmodel_del, allstats = FALSE)
 ```
 
+# Task 2 Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and Earth-Engine API's
+
+The digital tool for Task 2 was derived on the Google Colab platform using python programming, a jupyter notebook and the Google Earth Engine library. Using the following link, the tool can be viewed there in its hosted environment with its interactive maps pre-loaded.
+
+The Colab platform should also ensure simpler installation when sharing externally, downloading locally, or running copies in different a Colab project. Note that full editor settings were enabled with this link allowing for code edits to be made by user.
+
+Task 1 Output File Name & Webpage: `verra_task1.ipynb`
+
+-   <https://colab.research.google.com/drive/11izi_5-iYHOCWHwj17vWxWtlMPbglBiG?usp=sharing>
+
+In addition, copies of the Colab notebook were committed to the project's github repository for easy cloning and revisions:
+
+-   <https://github.com/seamusrobertmurphy/verra-tasks1-2/blob/main/verra_task2.ipynb>
