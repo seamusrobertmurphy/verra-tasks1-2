@@ -443,7 +443,9 @@ olsrr::ols_vif_tol(model_lm1)
 ## Appendix I: Codebook Derived {#appendix1}
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-htmltools::includeHTML("dataset_audit.html")
+
+htmltools::includeHTML("dataMaid_dataset_tidy.html")
+
 ```
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}

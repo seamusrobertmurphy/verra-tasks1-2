@@ -352,38 +352,34 @@ display: none;
 </div>
 
 
-<p>Technical Exercise for Candidate Program Officer at Verra Technology
+<p>Technical Exercise for Program Officer Candidate; Verra Technology
 Solutions ================ SMurphy 2023-12-04</p>
 <ul>
-<li><a href="#task-1-prototype-tool-for-quantifying-ghg-in-standing-timber-using-vsc-methodology-vm0010"><strong>Task
-1</strong> Prototype Tool for Quantifying GHG in Standing Timber Using
-VSC-Methodology-VM0010</a>
-<ul>
-<li><a href="#id_1-introduction">1. Introduction</a></li>
+<li><a href="#task-1-prototype-tool-for-quantifying-ghg-in-standing-timber-using-vsc-methodology-vm0010">Task
+1 Prototype Tool for Quantifying GHG in Standing Timber Using
+VSC-Methodology-VM0010</a></li>
 <li><a href="#id_11-import-data">1.1 Import Data</a></li>
 <li><a href="#id_12-audit-data">1.2 Audit Data</a></li>
 <li><a href="#id_13-tidy-data">1.3 Tidy Data</a></li>
-<li><a href="#id_14-compute-biomass-at-plot-level-eq1">1.4 Compute
+<li><a href="#id_21-compute-biomass-at-plot-level-eq1">2.1 Compute
 Biomass at Plot Level (Eq1)</a></li>
-<li><a href="#id_15-compute-biomass-at-strata-level-eq2">1.5 Compute
+<li><a href="#id_22-compute-biomass-at-strata-level-eq2">2.2 Compute
 Biomass at Strata Level (Eq2)</a></li>
-<li><a href="#id_16-compute-carbon-in-harvested-volumes-eq3">1.6 Compute
+<li><a href="#id_23-compute-carbon-in-harvested-volumes-eq3">2.3 Compute
 Carbon in Harvested Volumes (Eq3)</a></li>
-<li><a href="#id_17-compute-carbon-in-extracted-volumes-eq4">1.7 Compute
+<li><a href="#id_24-compute-carbon-in-extracted-volumes-eq4">2.4 Compute
 Carbon in Extracted Volumes (Eq4)</a></li>
-<li><a href="#additional-metrics">Additional Metrics</a></li>
-<li><a href="#regression-diagnostics">Regression Diagnostics</a></li>
+<li><a href="#id_31-additional-metrics">3.1 Additional Metrics</a></li>
+<li><a href="#id_32-regression-diagnostics">3.2 Regression
+Diagnostics</a></li>
 <li><a href="#appendix1">Appendix I: Codebook Derived</a></li>
-</ul></li>
-<li><a href="#task-2-prototype-tool-for-mapping-wildfires-using-the-nasa-firms-and-earth-engine-apis"><strong>Task
-2</strong> Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and
+<li><a href="#task-2-prototype-tool-for-mapping-wildfires-using-the-nasa-firms-and-earth-engine-apis">Task
+2 Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and
 Earth-Engine API’s</a></li>
 </ul>
-<div id="task-1-prototype-tool-for-quantifying-ghg-in-standing-timber-using-vsc-methodology-vm0010" class="section level1">
-<h1><strong>Task 1</strong> Prototype Tool for Quantifying GHG in
-Standing Timber Using VSC-Methodology-VM0010</h1>
-<div id="introduction" class="section level2">
-<h2>1. Introduction</h2>
+<div id="task-1-prototype-tool-for-quantifying-ghg-in-standing-timber-using-vsc-methodology-vm0010" class="section level2">
+<h2>Task 1 Prototype Tool for Quantifying GHG in Standing Timber Using
+VSC-Methodology-VM0010</h2>
 <p>The following workflow was used to test a prototype tool for
 quantifying greenhouse gas (GHG) emissions reduction. The objective is
 to illustrate the process outlined in the VCS Methodology, specifically
@@ -1490,7 +1486,7 @@ n / N (%); Mean (SD)
 <p><br></p>
 </div>
 <div id="compute-biomass-at-plot-level-eq1" class="section level2">
-<h2>1.4 Compute Biomass at Plot Level (Eq1)</h2>
+<h2>2.1 Compute Biomass at Plot Level (Eq1)</h2>
 <p>Note all four equations that follow derive estimates according to
 specific species, whether measured at the plot level, stratum or
 globally. Hence, caution is advised when computing initial, absolute
@@ -1523,7 +1519,7 @@ by = .(stratum_i, plot_sp, species_j)
 <p><br></p>
 </div>
 <div id="compute-biomass-at-strata-level-eq2" class="section level2">
-<h2>1.5 Compute Biomass at Strata Level (Eq2)</h2>
+<h2>2.2 Compute Biomass at Strata Level (Eq2)</h2>
 <p>On page 19 of the VM0010 Methodology, ‘equation 2’ provides
 calculation of merchantable timber volume of a species at the stratum
 level:</p>
@@ -1555,7 +1551,7 @@ by = .(stratum_i, species_j)
 <p><br></p>
 </div>
 <div id="compute-carbon-in-harvested-volumes-eq3" class="section level2">
-<h2>1.6 Compute Carbon in Harvested Volumes (Eq3)</h2>
+<h2>2.3 Compute Carbon in Harvested Volumes (Eq3)</h2>
 <p>On page 20 of the VM0010 Methodology, ‘equation 3’ provides
 calculation of carbon stock of harvested timber volumes for species
 <em>i</em> in stratum <em>i</em>.</p>
@@ -1597,7 +1593,7 @@ data.table::setDT(dataset_tidy)[, .(
 <p><br></p>
 </div>
 <div id="compute-carbon-in-extracted-volumes-eq4" class="section level2">
-<h2>1.7 Compute Carbon in Extracted Volumes (Eq4)</h2>
+<h2>2.4 Compute Carbon in Extracted Volumes (Eq4)</h2>
 <p>On page 21 of the VM0010 Methodology, ‘equation 4’ provides
 calculation of mean estimates of carbon stocks of species <em>i</em> in
 stratum <em>j,</em> by multiplying the species’ value of basic wood
@@ -1627,7 +1623,7 @@ data.table::setDT(dataset_tidy)[, .(
 </div>
 </div>
 <div id="additional-metrics" class="section level2">
-<h2>Additional Metrics</h2>
+<h2>3.1 Additional Metrics</h2>
 <pre class="r"><code># vJ_ha_m3: Mean volume by species across strata (m^3.ha-1)
 dataset_tidy &lt;- dataset_tidy %&gt;%
   group_by(species_j) %&gt;%
@@ -2521,7 +2517,7 @@ Vsp_ha_m3
 write.csv(dataset_tidy, &quot;dataset_tidy.csv&quot;, row.names = FALSE)</code></pre>
 </div>
 <div id="regression-diagnostics" class="section level2">
-<h2>Regression Diagnostics</h2>
+<h2>3.2 Regression Diagnostics</h2>
 <p>For demonstration purposes only, an ordinary-least-squared (OLS)
 model was fitted with unscreened covariates from the above dataset and
 deployed to generate predictions of total standing timber over a site
@@ -2532,10 +2528,9 @@ diagnostic exercise not suited to informing or adjusting biomass
 estimates above. Instead this short test-run reported on techniques used
 in cross validation and tuning functions, encouraging discussion of
 model comparison and selections by potential clients.</p>
-<p>Variables were recoded numerically or converted to integers to
-enhance their operability. Additional set of packages were loaded at
-this stage as listed in the <code>requirements</code> variable
-below.</p>
+<p>Variables were recoded as numerics or integers to fit functions
+below. Additional set of packages were loaded at this stage as listed in
+the <code>requirements</code> variable below.</p>
 <pre class="r"><code>requirements = install.packages(c(
   &quot;oslrr&quot;, &quot;ggplot2&quot;, &quot;autoplotly&quot;, &quot;BiocManager&quot;, &quot;ggbio&quot;,
   &quot;car&quot;, &quot;psych&quot;, &quot;useful&quot;, &quot;caret&quot;,
@@ -2736,7 +2731,7 @@ Eigenvalue and Condition Index
 </div>
 <div id="appendix-i-codebook-derived" class="section level2">
 <h2>Appendix I: Codebook Derived</h2>
-<pre class="r"><code>htmltools::includeHTML(&quot;dataset_audit.html&quot;)</code></pre>
+<pre class="r"><code>htmltools::includeHTML(&quot;dataMaid_dataset_tidy.html&quot;)</code></pre>
 
 
 \<!DOCTYPE html\>
@@ -3037,7 +3032,7 @@ dataset_tidy
 Autogenerated data summary from dataMaid
 </h3>
 <h4 class="date">
-2023-12-07 22:36:19.054629
+2023-12-08 14:33:55.136493
 </h4>
 
 </div>
@@ -3917,13 +3912,13 @@ Created by: seamusrobertmurphy (username: <code>seamus</code>).
 </li>
 <li>
 <p>
-Report creation time: Thu Dec 07 2023 22:36:19
+Report creation time: Fri Dec 08 2023 14:33:55
 </p>
 </li>
 <li>
 <p>
 Report was run from directory:
-<code>/home/seamus/Desktop/git_repos/verra-stage1-GHG-tool</code>
+<code>/home/seamus/Desktop/git_repos/verra-tasks1-2</code>
 </p>
 </li>
 <li>
@@ -3945,7 +3940,8 @@ Platform: x86_64-pc-linux-gnu (64-bit)(Europe/London).
 <p>
 Function call: <code>dataMaid::makeDataReport(data = dataset_tidy,
 output = "html", onlyProblematic = TRUE, replace = TRUE, visuals =
-setVisuals(all = "basicVisual"), codebook = TRUE)</code>
+setVisuals(all = "basicVisual"), codebook = TRUE, img.name =
+"dataset_audit", htmlfile = "dataset_audit")</code>
 </p>
 </li>
 </ul>
@@ -4178,7 +4174,7 @@ Unusual observations for Directional Stat4:
     rownames(z) &lt;- pointlabels[flag]
     invisible(z)
 }
-&lt;bytecode: 0x564517c59268&gt;
+&lt;bytecode: 0x56350cef1528&gt;
 &lt;environment: namespace:gvlma&gt;</code></pre>
 <pre class="r"><code>summary.gvlmaDel </code></pre>
 <pre><code>function (object, allstats = TRUE, ...) 
@@ -4248,7 +4244,7 @@ Unusual observations for Directional Stat4:
     }
     invisible(as.data.frame(unusualobs))
 }
-&lt;bytecode: 0x56451d6cc2d8&gt;
+&lt;bytecode: 0x563510200d90&gt;
 &lt;environment: namespace:gvlma&gt;</code></pre>
 <pre class="r"><code>summary(gvmodel_del, allstats = FALSE)</code></pre>
 <pre><code>Global test deletion statistics.
@@ -4289,160 +4285,27 @@ Unusual observations for Global Stat:
 [1] Delta Global Stat (%)  Global Stat p-value 
 &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
-</div>
 <div id="task-2-prototype-tool-for-mapping-wildfires-using-the-nasa-firms-and-earth-engine-apis" class="section level1">
-<h1><strong>Task 2</strong> Prototype Tool for Mapping Wildfires Using
-the NASA-FIRMS and Earth-Engine API’s</h1>
-<p><a href="https://colab.research.google.com/github/seamusrobertmurphy/verra-tasks1-2/blob/main/verra_task1.ipynb" target="_parent"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjIwIj48bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PC9saW5lYXJHcmFkaWVudD48Y2xpcFBhdGggaWQ9ImEiPjxyZWN0IHdpZHRoPSIxMTciIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIi8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjYSkiPjxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoMzB2MjBIMHoiLz48cGF0aCBmaWxsPSIjMDA3ZWM2IiBkPSJNMzAgMGg4N3YyMEgzMHoiLz48cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDExN3YyMEgweiIvPjwvZz48ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMTAiPjxzdmcgeD0iNHB4IiB5PSIwcHgiIHdpZHRoPSIyMnB4IiBoZWlnaHQ9IjIwcHgiIHZpZXdCb3g9Ii0yIDAgMjggMjQiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO2JvcmRlci1yYWRpdXM6IDFweDsiPjxwYXRoIHN0eWxlPSJmaWxsOiNlODcxMGE7IiBkPSJNMS45NzcsMTYuNzdjLTIuNjY3LTIuMjc3LTIuNjA1LTcuMDc5LDAtOS4zNTdDMi45MTksOC4wNTcsMy41MjIsOS4wNzUsNC40OSw5LjY5MWMtMS4xNTIsMS42LTEuMTQ2LDMuMjAxLTAuMDA0LDQuODAzQzMuNTIyLDE1LjExMSwyLjkxOCwxNi4xMjYsMS45NzcsMTYuNzd6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I2Y5YWIwMDsiIGQ9Ik0xMi4yNTcsMTcuMTE0Yy0xLjc2Ny0xLjYzMy0yLjQ4NS0zLjY1OC0yLjExOC02LjAyYzAuNDUxLTIuOTEsMi4xMzktNC44OTMsNC45NDYtNS42NzhjMi41NjUtMC43MTgsNC45NjQtMC4yMTcsNi44NzgsMS44MTljLTAuODg0LDAuNzQzLTEuNzA3LDEuNTQ3LTIuNDM0LDIuNDQ2QzE4LjQ4OCw4LjgyNywxNy4zMTksOC40MzUsMTYsOC44NTZjLTIuNDA0LDAuNzY3LTMuMDQ2LDMuMjQxLTEuNDk0LDUuNjQ0Yy0wLjI0MSwwLjI3NS0wLjQ5MywwLjU0MS0wLjcyMSwwLjgyNkMxMy4yOTUsMTUuOTM5LDEyLjUxMSwxNi4zLDEyLjI1NywxNy4xMTR6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I2U4NzEwYTsiIGQ9Ik0xOS41MjksOS42ODJjMC43MjctMC44OTksMS41NS0xLjcwMywyLjQzNC0yLjQ0NmMyLjcwMywyLjc4MywyLjcwMSw3LjAzMS0wLjAwNSw5Ljc2NGMtMi42NDgsMi42NzQtNi45MzYsMi43MjUtOS43MDEsMC4xMTVjMC4yNTQtMC44MTQsMS4wMzgtMS4xNzUsMS41MjgtMS43ODhjMC4yMjgtMC4yODUsMC40OC0wLjU1MiwwLjcyMS0wLjgyNmMxLjA1MywwLjkxNiwyLjI1NCwxLjI2OCwzLjYsMC44M0MyMC41MDIsMTQuNTUxLDIxLjE1MSwxMS45MjcsMTkuNTI5LDkuNjgyeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNmOWFiMDA7IiBkPSJNNC40OSw5LjY5MUMzLjUyMiw5LjA3NSwyLjkxOSw4LjA1NywxLjk3Nyw3LjQxM2MyLjIwOS0yLjM5OCw1LjcyMS0yLjk0Miw4LjQ3Ni0xLjM1NWMwLjU1NSwwLjMyLDAuNzE5LDAuNjA2LDAuMjg1LDEuMTI4Yy0wLjE1NywwLjE4OC0wLjI1OCwwLjQyMi0wLjM5MSwwLjYzMWMtMC4yOTksMC40Ny0wLjUwOSwxLjA2Ny0wLjkyOSwxLjM3MUM4LjkzMyw5LjUzOSw4LjUyMyw4Ljg0Nyw4LjAyMSw4Ljc0NkM2LjY3Myw4LjQ3NSw1LjUwOSw4Ljc4Nyw0LjQ5LDkuNjkxeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNmOWFiMDA7IiBkPSJNMS45NzcsMTYuNzdjMC45NDEtMC42NDQsMS41NDUtMS42NTksMi41MDktMi4yNzdjMS4zNzMsMS4xNTIsMi44NSwxLjQzMyw0LjQ1LDAuNDk5YzAuMzMyLTAuMTk0LDAuNTAzLTAuMDg4LDAuNjczLDAuMTljMC4zODYsMC42MzUsMC43NTMsMS4yODUsMS4xODEsMS44OWMwLjM0LDAuNDgsMC4yMjIsMC43MTUtMC4yNTMsMS4wMDZDNy44NCwxOS43Myw0LjIwNSwxOS4xODgsMS45NzcsMTYuNzd6Ii8+PC9zdmc+PHRleHQgeD0iMjQ1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiB0ZXh0TGVuZ3RoPSIzMCI+IDwvdGV4dD48dGV4dCB4PSI3MjUiIHk9IjE1MCIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyIgdHJhbnNmb3JtPSJzY2FsZSguMSkiIHRleHRMZW5ndGg9Ijc3MCI+T3BlbiBpbiBDb2xhYjwvdGV4dD48dGV4dCB4PSI3MjUiIHk9IjE0MCIgdHJhbnNmb3JtPSJzY2FsZSguMSkiIHRleHRMZW5ndGg9Ijc3MCI+T3BlbiBpbiBDb2xhYjwvdGV4dD48L2c+IDwvc3ZnPgo=" alt="Open In Colab" /></a>
-# <strong>Task 2:</strong> Prototype Tool for Mapping Wildfires Using
-the NASA-FIRMS and Earth-Engine API’s</p>
-<div id="verra-technology-solutions-job-inteview-technical-exercise" class="section level2">
-<h2>Verra Technology Solutions Job-Inteview-Technical-Exercise</h2>
-<p># Introduction: The following script was developed for submission of
-Task 2 assignment during employment interview process with Verra
-Technicial Solutions Team. Task 2 objectives called for development of a
-digital tool used to assess NASA’s Fire Information for Resource
-Management System (FIRMS) API for available fire alerts.</p>
-<p>Suggested programming languages were cited including
-Google-Earth-Engine commands written in either JavaScript or Python.
-This allowed use of the Google Colab environment, preferred for its
-sharing and notation tools, and the pre-installed earth-engine library
-and python3 version, as shown in image below.</p>
+<h1>Task 2 Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and
+Earth-Engine API’s</h1>
+<p>The digital tool for Task 2 was derived on the Google Colab platform
+using python programming, a jupyter notebook and the Google Earth Engine
+library. Using the following link, the tool can be viewed there in its
+hosted environment with its interactive maps pre-loaded.</p>
+<p>The Colab platform should also ensure simpler installation when
+sharing externally, downloading locally, or running copies in different
+a Colab project. Note that full editor settings were enabled with this
+link allowing for code edits to be made by user.</p>
+<p>Task 1 Output File Name &amp; Webpage:
+<code>verra_task1.ipynb</code></p>
 <ul>
-<li>Note, fewer problems are encountered during notebook setup and
-package installations if run from chrome browser.*</li>
+<li><a href="https://colab.research.google.com/drive/11izi_5-iYHOCWHwj17vWxWtlMPbglBiG?usp=sharing" class="uri">https://colab.research.google.com/drive/11izi_5-iYHOCWHwj17vWxWtlMPbglBiG?usp=sharing</a></li>
 </ul>
-<p><strong>Figure 1.</strong> Screenshot of local Colab environment</p>
-<div class="float">
-<img src="data:image/png;base64,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" alt="python-version.png" />
-<div class="figcaption">python-version.png</div>
-</div>
-<p>File storage was implemented using the project’s public github
-repository located <a href="https://github.com/seamusrobertmurphy/verra-tasks1-2">here</a>.
-This respository also stores all data inputs and ouputs from the Task 1
-assignment. Since this current notebook was built and hosted on the
-Colab platform, the repository’s version control was instead used in the
-virtual environment setup of Task 1 tool. Iterations and code edits were
-committed using Colab-Git widget to enable review of the pipeline’s
-history. Finaly, a mastercopy of this Colab notebook was stored here in
-its original working directory that is hosted in a personal google drive
-folder. This was done to allow for quick sharing and secure deploys
-using the google network.</p>
-<p>To help the user navigate the workflow, the following list of summary
-steps was drawn from the task’s outline document and then reinterpreted
-after several inital attempts in testing the tool:</p>
-<ol style="list-style-type: decimal">
-<li>Setup GEE environment</li>
-<li>Mount user’s google drive</li>
-<li>Import AOI file of <strong>Spatial Boundary</strong></li>
-<li>Import FIRMS &amp; filter by <strong>Temporal Range</strong></li>
-<li>Map filtered layers over AOI window</li>
-<li>Set up <strong>Fire Alerts</strong> showing real-time wildfires</li>
-<li>Add option for downloading result rasters</li>
-</ol>
-<p>Expect the following code chunk to promt user to authenticate their
-google-earth-engine account, derive a private token, and paste token
-into the the in-line box that appears. Follow instructions and links
-off-page to complete setup.<br />
-!pip install leafmap geemap geopandas ee.Authenticate()
-ee.Initialize()</p>
-<p>import ee, json, geemap, ipyleaflet, os from google.colab import
-drive from google.colab import files !drive.mount(‘/content/drive’)</p>
-</div>
-</div>
-<div id="data-sources" class="section level1">
-<h1>1.1 Data Sources:</h1>
-<p>Data was sourced from the earth engine (ee) library and imported as a
-<code>FeatureCollection</code> data object using its ee-assighned label
-‘FIRMS’. Information regaring the dataset’s structure, variable labels,
-and values are stored here in the <a href="https://developers.google.com/earth-engine/datasets/catalog/FIRMS">Earth
-Engine Collection Warehouse</a>. Hit the ‘citation’ tab to reveal
-variable information.</p>
-<p>This ‘FIRMS’ comprises the same wildfire data used in the FIRMS
-digital platform as its passed through API to API to provide estimates
-of Near-Real-Time locations of active fires that are captured,
-processed, and published on a rolling basis every 3 to 5 five hours from
-moment of observation at satellite. Note that the NRT dataset is derived
-from MODIS sensor data that is initally captured at a gridded resolution
-of 250m2 from the Terra and Aqua satellites and then processed, analyzed
-and redistributed at a resolution of 1km2 by the LANCE data processing
-house.</p>
-<p>In addition to <a href="https://www.earthdata.nasa.gov/learn/find-data/near-real-time">NRT</a>-FIRMS
-data, the LANCE workdesk also produces a Ultra-Real-Time <a href="https://www.earthdata.nasa.gov/learn/articles/firms-urt-data">URT-FIRMS</a>
-dataset using automated algorithms and satellite connection netowrks to
-broadcast live streams of processed spectral signatures monitoring is
-part of the rolling basis as the Lance . Image processing processing is
-derived by passing through directly from NASA’s Lance processing desk
-throughAPI as for scanning wildfire fooprints and reqreiving alerts of
-active fires within defined area of interest (AOI) using Google Earth
-Engine Collections, leafmap tools, and NASA-FIRMS APIs. Active fire
-layers NASA-processed indices from VIIRS and MODIS real-time
-satellites.</p>
-</div>
-<div id="tidy-data-1" class="section level1">
-<h1>1.2 Tidy Data</h1>
-<p>The geospatial data package <code>geopandas</code> can be used in
-importing, reviewing, reprojecting, and assigning coordinate reference
-systems to user’s area-of-interest (AOI) files.</p>
-<p>There are three methods for importing data that appeared more
-user-friendly than others. There is the simple ‘drag and drop’ method or
-the use of ‘file upload’ table in top left, which lands the files into
-Drive’s root directory. From there, the simple file path and file
-extension can be entered as follows.</p>
-<p>Alternatively, we can prompt the user to upload files interactively
-using the function below that is now commented out as
-<code>uploaded = files.upload()</code>. For this function to work, the
-user’s personal drive must be mounted to the notebook’s environment
-directory by running the command
-<code>!drive.mount(&#39;/content/drive&#39;)</code> as has been prepared
-above.</p>
-<p>import geopandas as gpd aoi_filter_geopanda =
-gpd.read_file(‘/content/aoi_filter_small.shp’, crs = ‘EPSG:4326’)
-#uploaded = files.upload()</p>
-</div>
-<div id="convert-aoi-to-ee.geometry-object-for-clipping" class="section level1">
-<h1>Convert AOI to ee.Geometry object for clipping</h1>
-<p>def shp_to_ee_fmt(geodf): data = json.loads(geodf.to_json()) return
-data[‘features’][0][‘geometry’][‘coordinates’ ] aoi_filter_geometry =
-ee.Geometry.MultiPolygon( shp_to_ee_fmt(aoi_filter_geopanda) )</p>
-</div>
-<div id="convert-aoi-to-ee.feature-object-object-for-styling" class="section level1">
-<h1>Convert AOI to ee.Feature object object for styling</h1>
-<p>aoi_filter_feature = ee.FeatureCollection( aoi_filter_geometry )
-aoi_filter_styled = aoi_filter_feature.style( color=‘#e32636’,
-fillColor=‘80FF0000’, lineType=‘solid’ )</p>
-</div>
-<div id="clip-nasa-dataset-to-aoi-window" class="section level1">
-<h1>Clip NASA dataset to AOI window</h1>
-<p>fires_dataset = ee.ImageCollection( ‘FIRMS’).filterDate(
-‘2023-10-25’, ‘2023-12-01’).select( ‘T21’).median() fires_aoi =
-fires_dataset.clip( aoi_filter_geometry ) firesVis = { ‘min’: 325.0,
-‘max’: 400.0, ‘palette’: [ ‘red’, ‘orange’, ‘yellow’] }</p>
-</div>
-<div id="map-all-layers" class="section level1">
-<h1>Map all layers</h1>
-<p>Map = geemap.Map() Map.add_basemap(‘SATELLITE’)
-Map.centerObject(aoi_filter_geometry, zoom=7) Map.addLayer(fires_aoi,
-firesVis, ‘Fires’) Map.addLayer(aoi_filter_styled, {}, opacity=.75) Map
-# ⛔ Fire Alert</p>
-<p>There are active fires identified near you.</p>
-<p>Review map below of real-time wildfire data.</p>
-<p>Sign up here for daily fire alerts in your area: <a href="https://firms.modaps.eosdis.nasa.gov/alerts/">FIRMS Fire
-Alerts</a></p>
-</div>
-<div id="filter-to-real-time-firms-image" class="section level1">
-<h1>Filter to real-time FIRMS image</h1>
-<p>fires_full = ee.ImageCollection(‘FIRMS’) fires_active =
-fires_full.first() # Map again Map = geemap.Map()
-Map.add_basemap(‘SATELLITE’) Map.centerObject(aoi_filter_geometry,
-zoom=9) Map.addLayer(aoi_filter_styled, {}, opacity=.75)
-Map.addLayer(fires_active, {}, ‘Active Fires:FIRMS’) Map</p>
-<p>Need to download your results in raster format for local mapping?</p>
-<p>Replace folder path with personal drive folder and run code. task =
-ee.batch.Export.image.toDrive(image=fires_aoi, scale=30,
-fileFormat=‘GeoTIFF’, description=‘Wildfires_AOI_2023OctDec’,
-folder=‘/content/drive/MyDrive/colab_data/’, maxPixels=1e9)</p>
-<p>task.start()</p>
+<p>In addition, copies of the Colab notebook were committed to the
+project’s github repository for easy cloning and revisions:</p>
+<ul>
+<li><a href="https://github.com/seamusrobertmurphy/verra-tasks1-2/blob/main/verra_task2.ipynb" class="uri">https://github.com/seamusrobertmurphy/verra-tasks1-2/blob/main/verra_task2.ipynb</a></li>
+</ul>
 </div>
 
 
