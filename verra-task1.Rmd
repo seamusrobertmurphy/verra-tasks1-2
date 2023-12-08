@@ -3,18 +3,18 @@ title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solut
 author: "SMurphy"
 date: "2023-12-04"
 output: 
-  github_document:
+  html_document:
     toc: TRUE
     toc_depth: 5
     df_print: tibble
-  
+    keep_md: TRUE
 always_allow_html: true
 ---
 
 ```{r setup, include=FALSE, message = FALSE, warning=FALSE, error=FALSE}
-#options(htmltools.dir.version = FALSE, 
- #       htmltools.preserve.raw = FALSE, 
-  #      knitr.table.format = "html")
+options(htmltools.dir.version = FALSE, 
+        htmltools.preserve.raw = FALSE, 
+        knitr.table.format = "html")
 library(readxl)
 library(magrittr)
 library(janitor)
