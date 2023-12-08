@@ -1,5 +1,5 @@
 ---
-title: Technical Exercise for Program Officer Candidate; Verra Technology Solutions  
+title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solutions'  
 author: "SMurphy"
 date: "2023-12-04"
 output: 
@@ -12,9 +12,9 @@ always_allow_html: true
 ---
 
 ```{r setup, include=FALSE, message = FALSE, warning=FALSE, error=FALSE}
-options(htmltools.dir.version = FALSE, 
-        htmltools.preserve.raw = FALSE, 
-        knitr.table.format = "html")
+#options(htmltools.dir.version = FALSE, 
+ #       htmltools.preserve.raw = FALSE, 
+  #      knitr.table.format = "html")
 library(readxl)
 library(magrittr)
 library(janitor)
@@ -108,7 +108,7 @@ dataset_tidy
 
 Examine structure, scan for errors, and save `dataMaid` audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=FALSE}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=TRUE}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
