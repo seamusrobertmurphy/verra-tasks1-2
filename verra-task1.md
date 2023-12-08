@@ -4,8 +4,7 @@ Solutions
 SMurphy
 2023-12-04
 
-- [Task 1 Prototype Tool for Quantifying GHG in Standing Timber Using
-  VSC-Methodology-VM0010](#task-1-prototype-tool-for-quantifying-ghg-in-standing-timber-using-vsc-methodology-vm0010)
+- [Task 1](#task-1)
 - [1.1 Import Data](#11-import-data)
 - [1.2 Audit Data](#12-audit-data)
 - [1.3 Tidy Data](#13-tidy-data)
@@ -20,11 +19,12 @@ SMurphy
 - [3.1 Additional Metrics](#31-additional-metrics)
 - [3.2 Regression Diagnostics](#32-regression-diagnostics)
 - [Appendix I: Codebook Derived](#appendix1)
-- [Task 2 Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and
-  Earth-Engine
-  API’s](#task-2-prototype-tool-for-mapping-wildfires-using-the-nasa-firms-and-earth-engine-apis)
+- [Task 2](#task-2)
 
-## Task 1 Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010
+## Task 1
+
+***Prototype Tool for Quantifying GHG in Standing Timber Using
+VSC-Methodology-VM0010***
 
 The following workflow was used to test a prototype tool for quantifying
 greenhouse gas (GHG) emissions reduction. The objective is to illustrate
@@ -176,9 +176,9 @@ Import `dataset_raw` and write copy to `dataset_tidy`. Seed is set to
 
 ``` r
 set.seed(77777)
-dataset_raw = read_excel("dataset_raw.xlsx")
+dataset_raw <- read_excel("dataset_raw.xlsx")
 write.csv(dataset_raw, "dataset_tidy.csv", row.names = FALSE)
-dataset_tidy = read.csv("dataset_tidy.csv")
+dataset_tidy <- read.csv("dataset_tidy.csv")
 dataset_tidy
 ```
 
@@ -204,18 +204,37 @@ I](#appendix1)).
 
 ``` r
 str(dataset_tidy)
-dplyr::count(dataset_tidy, Species..j.)
+```
 
+    'data.frame':   10 obs. of  5 variables:
+     $ Stratum...i.         : int  1 1 1 1 1 2 2 2 2 2
+     $ Plot..sp.            : int  1 1 1 2 2 1 1 1 1 1
+     $ Species..j.          : chr  "Sp1" "Sp1" "Sp1" "Sp4" ...
+     $ Tree..l.             : chr  "t1" "t2" "t3" "t1" ...
+     $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36
+
+``` r
+dplyr::count(dataset_tidy, Species..j.)
+```
+
+    # A tibble: 6 × 2
+      Species..j.     n
+      <chr>       <int>
+    1 Sp1             4
+    2 Sp2             1
+    3 Sp3             1
+    4 Sp4             2
+    5 Sp5             1
+    6 sp4             1
+
+``` r
 saveHTML(dataMaid::makeDataReport(
   dataset_tidy,
   output = "html",
   codebook = TRUE,
   onlyProblematic = TRUE,
   visuals = setVisuals(all = "basicVisual"),
-  img.name = "dataset_audit",
-  htmlfile = "dataset_audit",
   replace = TRUE
-  
 ))
 ```
 
@@ -266,7 +285,7 @@ data.table::setnames(dataset_tidy, old = "Plot..sp.", new = "plot_sp", skip_abse
 data.table::setnames(dataset_tidy, old = "Tree..l.", new = "tree_l", skip_absent = TRUE)
 data.table::setnames(dataset_tidy, old = "Volume..V_.l.j.I.sp..", new = "volume", skip_absent = TRUE)
 dataset_tidy$species_j[dataset_tidy$species_j == "sp4"] <- "Sp4"
-dataset_tidy$species_j = as.factor(dataset_tidy$species_j)
+dataset_tidy$species_j <- as.factor(dataset_tidy$species_j)
 dataset_tidy$stratum_i <- as.factor(dataset_tidy$stratum_i)
 ```
 
@@ -294,25 +313,29 @@ dataset_tidy$d <- 0.5
 dataset_tidy$a_sp <- 0.1
 dataset_tidy$a_sp_m2 <- dataset_tidy$a_sp * 10000
 
-dataset_tidy = dataset_tidy %>%
+dataset_tidy <- dataset_tidy %>%
   group_by(stratum_i) %>%
   mutate(a_I_m2 = sum(a_sp_m2), a_I_ha = sum(a_sp))
 
-dataset_tidy %>% 
-  select(stratum_i, species_j, plot_sp, tree_l, volume) %>% 
+dataset_tidy %>%
+  select(stratum_i, species_j, plot_sp, tree_l, volume) %>%
   tbl_summary(
     by = species_j,
-    statistic = list(all_continuous() ~ "{mean} ({sd})",
-                     all_categorical() ~ "{n} / {N} ({p}%)"),
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} / {N} ({p}%)"
+    ),
     digits = all_continuous() ~ 1,
     type = all_categorical() ~ "categorical",
-    label = list(stratum_i ~ "Strata",
-                 species_j ~ "Species", 
-                 plot_sp ~ "Plot ID#", 
-                 tree_l ~ "Tree ID#", 
-                 volume ~ "Biomass Volume (m3)"), 
-              missing_text ="Missing"
-              )
+    label = list(
+      stratum_i ~ "Strata",
+      species_j ~ "Species",
+      plot_sp ~ "Plot ID#",
+      tree_l ~ "Tree ID#",
+      volume ~ "Biomass Volume (m3)"
+    ),
+    missing_text = "Missing"
+  )
 ```
 
 <!--html_preserve-->
@@ -1147,8 +1170,9 @@ dataset_tidy <- dataset_tidy %>%
 data.table::setDT(dataset_tidy)[, .(
   vji_sp_m3,
   vji_ha_m3,
-  chb_ha_tC = vji_ha_m3 * bcef_r * cf),
-  by = .(stratum_i, species_j)
+  chb_ha_tC = vji_ha_m3 * bcef_r * cf
+),
+by = .(stratum_i, species_j)
 ]
 ```
 
@@ -1188,11 +1212,12 @@ dataset_tidy <- dataset_tidy %>%
   mutate(cex_ha_tC = vji_ha_m3 * d * cf)
 
 data.table::setDT(dataset_tidy)[, .(
-  vji_sp_m3, 
-  vji_ha_m3, 
+  vji_sp_m3,
+  vji_ha_m3,
   chb_ha_tC,
-  cex_ha_tC = vji_ha_m3 * d * cf),
-  by = .(stratum_i, species_j)
+  cex_ha_tC = vji_ha_m3 * d * cf
+),
+by = .(stratum_i, species_j)
 ]
 ```
 
@@ -1216,14 +1241,16 @@ data.table::setDT(dataset_tidy)[, .(
 # vJ_ha_m3: Mean volume by species across strata (m^3.ha-1)
 dataset_tidy <- dataset_tidy %>%
   group_by(species_j) %>%
-  mutate(vJ_ha_m3 = mean(vji_sp_m3) * 10) 
-dataset_tidy[1:10,] %>%
-  select(stratum_i, species_j, 
-         plot_sp, vji_ha_m3, 
-         chb_ha_tC, cex_ha_tC, 
-         vJ_ha_m3) %>%
+  mutate(vJ_ha_m3 = mean(vji_sp_m3) * 10)
+dataset_tidy[1:10, ] %>%
+  select(
+    stratum_i, species_j,
+    plot_sp, vji_ha_m3,
+    chb_ha_tC, cex_ha_tC,
+    vJ_ha_m3
+  ) %>%
   kbl(caption = "Table with right-hand showing mean biomass volume per species across all strata (m3.ha-1)", escape = T) %>%
-  kable_minimal(full_width=T)
+  kable_minimal(full_width = T)
 ```
 
 <table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
@@ -1491,17 +1518,19 @@ Sp5
 </table>
 
 ``` r
-# VI_ha_m3: Mean volume by strata across species and plots (m^3.ha-1) 
+# VI_ha_m3: Mean volume by strata across species and plots (m^3.ha-1)
 dataset_tidy <- dataset_tidy %>%
   group_by(stratum_i) %>%
   mutate(vI_ha_m3 = mean(vji_sp_m3) * 10)
-dataset_tidy[1:10,] %>%
-  select(stratum_i, species_j, 
-         plot_sp, vji_ha_m3, 
-         chb_ha_tC, cex_ha_tC, 
-         vJ_ha_m3, vI_ha_m3) %>%
+dataset_tidy[1:10, ] %>%
+  select(
+    stratum_i, species_j,
+    plot_sp, vji_ha_m3,
+    chb_ha_tC, cex_ha_tC,
+    vJ_ha_m3, vI_ha_m3
+  ) %>%
   kbl(caption = "Table with right-hand column showing mean biomass volume per strata across all species and plots (m3.ha-1)", escape = T) %>%
-  kable_minimal(full_width=T)
+  kable_minimal(full_width = T)
 ```
 
 <table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
@@ -1803,17 +1832,19 @@ Sp5
 
 ``` r
 # Vsp_ha_n3: Total volume per plot (m^3.ha-1)
-dataset_tidy = dataset_tidy %>%
+dataset_tidy <- dataset_tidy %>%
   group_by(plot_sp, stratum_i) %>%
   mutate(Vsp_ha_m3 = sum(volume) * 10)
-dataset_tidy[1:10,] %>%
-  select(stratum_i, 
-         plot_sp, vji_ha_m3, 
-         chb_ha_tC, cex_ha_tC, 
-         vJ_ha_m3, vI_ha_m3,
-         vI_ha_m3, Vsp_ha_m3) %>%
+dataset_tidy[1:10, ] %>%
+  select(
+    stratum_i,
+    plot_sp, vji_ha_m3,
+    chb_ha_tC, cex_ha_tC,
+    vJ_ha_m3, vI_ha_m3,
+    vI_ha_m3, Vsp_ha_m3
+  ) %>%
   kbl(caption = "Table with right-hand column showing total biomass per plot across species (m3.ha-1)", escape = T) %>%
-  kable_minimal(full_width=T)
+  kable_minimal(full_width = T)
 ```
 
 <table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
@@ -2136,19 +2167,22 @@ Additional set of packages were loaded at this stage as listed in the
 `requirements` variable below.
 
 ``` r
-requirements = install.packages(c(
-  "oslrr", "ggplot2", "autoplotly", "BiocManager", "ggbio",
-  "car", "psych", "useful", "caret",
-  "BIOMASS", "rvest", "lmfor", "DescTools",
-  "MLmetrics", "knitr", "phyloseq", "carData"), 
-  dependencies=TRUE)
+requirements <- install.packages(
+  c(
+    "oslrr", "ggplot2", "autoplotly", "BiocManager", "ggbio",
+    "car", "psych", "useful", "caret",
+    "BIOMASS", "rvest", "lmfor", "DescTools",
+    "MLmetrics", "knitr", "phyloseq", "carData"
+  ),
+  dependencies = TRUE
+)
 requirements
 ```
 
 ``` r
-#str(dataset_tidy)
-dataset_tidy$stratum_i = as.integer(dataset_tidy$stratum_i)
-dataset_tidy$species_j = as.integer(dataset_tidy$species_j)
+# str(dataset_tidy)
+dataset_tidy$stratum_i <- as.integer(dataset_tidy$stratum_i)
+dataset_tidy$species_j <- as.integer(dataset_tidy$species_j)
 model_lm1 <- lm(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_tidy)
 olsrr::ols_regress(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_tidy)
 ```
@@ -2185,10 +2219,10 @@ olsrr::ols_regress(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_ti
     -------------------------------------------------------------------------------------------
 
 ``` r
-#psych::describe(dataset_tidy$vji_ha_m3)
-#psych::describe(dataset_tidy$volume)
-#psych::describe(dataset_tidy$species_j)
-#psych::describe(dataset_tidy$stratum_i)
+# psych::describe(dataset_tidy$vji_ha_m3)
+# psych::describe(dataset_tidy$volume)
+# psych::describe(dataset_tidy$species_j)
+# psych::describe(dataset_tidy$stratum_i)
 
 shapiro.test(dataset_tidy$volume)
 ```
@@ -2586,7 +2620,7 @@ dataset_tidy
 Autogenerated data summary from dataMaid
 </h3>
 <h4 class="date">
-2023-12-08 19:39:52.852471
+2023-12-08 21:05:09.368996
 </h4>
 
 </div>
@@ -3466,7 +3500,7 @@ Created by: seamusrobertmurphy (username: <code>seamus</code>).
 </li>
 <li>
 <p>
-Report creation time: Fri Dec 08 2023 19:39:52
+Report creation time: Fri Dec 08 2023 21:05:09
 </p>
 </li>
 <li>
@@ -3494,8 +3528,7 @@ Platform: x86_64-pc-linux-gnu (64-bit)(Europe/London).
 <p>
 Function call: <code>dataMaid::makeDataReport(data = dataset_tidy,
 output = "html", onlyProblematic = TRUE, replace = TRUE, visuals =
-setVisuals(all = "basicVisual"), codebook = TRUE, img.name =
-"dataset_audit", htmlfile = "dataset_audit")</code>
+setVisuals(all = "basicVisual"), codebook = TRUE)</code>
 </p>
 </li>
 </ul>
@@ -3543,7 +3576,7 @@ $(document).ready(function () {
 
 ``` r
 library(gvlma)
-gvmodel = gvlma(model_lm1)
+gvmodel <- gvlma(model_lm1)
 summary(gvmodel)
 ```
 
@@ -3746,11 +3779,11 @@ display.delstats
         rownames(z) <- pointlabels[flag]
         invisible(z)
     }
-    <bytecode: 0x556b80fcffa8>
+    <bytecode: 0x564ac35fef00>
     <environment: namespace:gvlma>
 
 ``` r
-summary.gvlmaDel 
+summary.gvlmaDel
 ```
 
     function (object, allstats = TRUE, ...) 
@@ -3820,7 +3853,7 @@ summary.gvlmaDel
         }
         invisible(as.data.frame(unusualobs))
     }
-    <bytecode: 0x556b809f94b0>
+    <bytecode: 0x564ac312c908>
     <environment: namespace:gvlma>
 
 ``` r
@@ -3866,7 +3899,10 @@ summary(gvmodel_del, allstats = FALSE)
     [1] Delta Global Stat (%)  Global Stat p-value 
     <0 rows> (or 0-length row.names)
 
-# Task 2 Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and Earth-Engine API’s
+# Task 2
+
+Prototype Tool for Mapping Wildfires Using the NASA-FIRMS and
+Earth-Engine API’s
 
 The digital tool for Task 2 was derived on the Google Colab platform
 using python programming, a jupyter notebook and the Google Earth Engine
