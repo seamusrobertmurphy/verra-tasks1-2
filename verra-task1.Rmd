@@ -441,6 +441,7 @@ olsrr::ols_vif_tol(model_lm1)
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
 htmltools::includeHTML("dataMaid_dataset_tidy.html")
 ```
+
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
 library(gvlma)
 gvmodel = gvlma(model_lm1)
@@ -452,3 +453,4 @@ display.delstats
 summary.gvlmaDel 
 summary(gvmodel_del, allstats = FALSE)
 ```
+
