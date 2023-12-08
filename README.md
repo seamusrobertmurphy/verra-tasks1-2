@@ -3721,7 +3721,7 @@ display.delstats
         rownames(z) <- pointlabels[flag]
         invisible(z)
     }
-    <bytecode: 0x558de6c12168>
+    <bytecode: 0x55a3d0358d98>
     <environment: namespace:gvlma>
 
 ``` r
@@ -3795,7 +3795,7 @@ summary.gvlmaDel
         }
         invisible(as.data.frame(unusualobs))
     }
-    <bytecode: 0x558def980688>
+    <bytecode: 0x55a3daa91fc0>
     <environment: namespace:gvlma>
 
 ``` r

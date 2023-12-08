@@ -6,7 +6,7 @@ output:
   github_document:
     toc: TRUE
     toc_depth: 5
-    df_print: "paged"
+    df_print: paged
   
 always_allow_html: true
 ---
