@@ -100,13 +100,13 @@ dataset_tidy
 
 Examine structure, scan for errors, and save audit report for input to codebook ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=F}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=T}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
 saveHTML(dataMaid::makeDataReport(
   dataset_tidy,
-  output = "pdf",
+  output = "html",
   codebook = TRUE,
   onlyProblematic = TRUE,
   visuals = setVisuals(all = "basicVisual"),
@@ -114,7 +114,7 @@ saveHTML(dataMaid::makeDataReport(
 ))
 ```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F}
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F, eval=FALSE}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```

@@ -89,18 +89,7 @@ Examine structure, scan for errors, and save audit report for input to codebook 
 
 ```r
 str(dataset_tidy)
-dplyr::count(dataset_tidy, Species..j.)
-
-saveHTML(dataMaid::makeDataReport(
-  dataset_tidy,
-  output = "pdf",
-  codebook = TRUE,
-  onlyProblematic = TRUE,
-  visuals = setVisuals(all = "basicVisual"),
-  replace = TRUE
-))
 ```
-
 
 ```
 'data.frame':	10 obs. of  5 variables:
@@ -109,6 +98,10 @@ saveHTML(dataMaid::makeDataReport(
  $ Species..j.          : chr  "Sp1" "Sp1" "Sp1" "Sp4" ...
  $ Tree..l.             : chr  "t1" "t2" "t3" "t1" ...
  $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36
+```
+
+```r
+dplyr::count(dataset_tidy, Species..j.)
 ```
 
 ```
@@ -122,6 +115,19 @@ saveHTML(dataMaid::makeDataReport(
 5 Sp5             1
 6 sp4             1
 ```
+
+```r
+saveHTML(dataMaid::makeDataReport(
+  dataset_tidy,
+  output = "pdf",
+  codebook = TRUE,
+  onlyProblematic = TRUE,
+  visuals = setVisuals(all = "basicVisual"),
+  replace = TRUE
+))
+```
+
+
 
 ## 1.3 Tidy Data
 

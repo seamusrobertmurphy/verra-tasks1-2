@@ -770,23 +770,14 @@ dataset_tidy</code></pre>
 <h2>1.2 Audit Data</h2>
 <p>Examine structure, scan for errors, and save audit report for input
 to codebook (<a href="#appendix1">Appendix I</a>).</p>
-<pre class="r"><code>str(dataset_tidy)
-dplyr::count(dataset_tidy, Species..j.)
-
-saveHTML(dataMaid::makeDataReport(
-  dataset_tidy,
-  output = &quot;pdf&quot;,
-  codebook = TRUE,
-  onlyProblematic = TRUE,
-  visuals = setVisuals(all = &quot;basicVisual&quot;),
-  replace = TRUE
-))</code></pre>
+<pre class="r"><code>str(dataset_tidy)</code></pre>
 <pre><code>&#39;data.frame&#39;:   10 obs. of  5 variables:
  $ Stratum...i.         : int  1 1 1 1 1 2 2 2 2 2
  $ Plot..sp.            : int  1 1 1 2 2 1 1 1 1 1
  $ Species..j.          : chr  &quot;Sp1&quot; &quot;Sp1&quot; &quot;Sp1&quot; &quot;Sp4&quot; ...
  $ Tree..l.             : chr  &quot;t1&quot; &quot;t2&quot; &quot;t3&quot; &quot;t1&quot; ...
  $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36</code></pre>
+<pre class="r"><code>dplyr::count(dataset_tidy, Species..j.)</code></pre>
 <pre><code># A tibble: 6 × 2
   Species..j.     n
   &lt;chr&gt;       &lt;int&gt;
@@ -796,6 +787,14 @@ saveHTML(dataMaid::makeDataReport(
 4 Sp4             2
 5 Sp5             1
 6 sp4             1</code></pre>
+<pre class="r"><code>saveHTML(dataMaid::makeDataReport(
+  dataset_tidy,
+  output = &quot;pdf&quot;,
+  codebook = TRUE,
+  onlyProblematic = TRUE,
+  visuals = setVisuals(all = &quot;basicVisual&quot;),
+  replace = TRUE
+))</code></pre>
 </div>
 <div id="tidy-data" class="section level2">
 <h2>1.3 Tidy Data</h2>
