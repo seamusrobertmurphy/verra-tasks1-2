@@ -435,19 +435,16 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-+-------+-------+-------+-------+-------+-------+----------------+
-|       |       | Model | SW    | BP    | BF    | species_j_VIF  |
-+-------+-------+-------+-------+-------+-------+----------------+
-| M1    | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131          |
-+-------+-------+-------+-------+-------+-------+----------------+
-| M2    |       |       |       |       |       |                |
-+-------+-------+-------+-------+-------+-------+----------------+
-| M3    |       |       |       |       |       |                |
-+-------+-------+-------+-------+-------+-------+----------------+
+|     |       |       |       |       |       |               |
+|-----|-------|-------|-------|-------|-------|---------------|
+|     |       | Model | SW    | BP    | BF    | species_j_VIF |
+| M1  | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131         |
+| M2  |       |       |       |       |       |               |
+| M3  |       |       |       |       |       |               |
 
 ## Appendix I: Codebook Derived {#appendix1}
 
-Output of auto-generated  audit also stored in working directory as `dataMaid_dataset_tidy.pdf`
+Output of auto-generated audit also stored in working directory as `dataMaid_dataset_tidy.pdf`
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
 knitr::include_graphics("dataMaid_dataset_tidy.png")
