@@ -352,7 +352,7 @@ write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
 
 ## 3.2 Regression Diagnostics
 
-For demonstration purposes only, an ordinary-least-squared (OLS) model was fitted with unscreened covariates from the above dataset and deployed to generate predictions of total standing timber over a site area of 100 hectares. From these predictions, derived residuals were acquired to showcase a number of diagnostic tools and accuracy metrics relevant to forest inventory analyses. This was a specifically diagnostic exercise not suited to informing or adjusting biomass estimates above. Instead this short test-run reported on techniques used in cross validation and tuning functions, encouraging discussion of model comparison and selections by potential clients.
+[*Section unfinished!:*]{.underline} For demonstration purposes only, an ordinary-least-squared (OLS) model was fitted with unscreened covariates from the above dataset and deployed to generate predictions of total standing timber over a site area of 100 hectares. From these predictions, derived residuals were acquired to showcase a number of diagnostic tools and accuracy metrics relevant to forest inventory analyses. This was a specifically diagnostic exercise not suited to informing or adjusting biomass estimates above. Instead this short test-run reported on techniques used in cross validation and tuning functions, encouraging discussion of model comparison and selections by potential clients.
 
 Variables were recoded as numerics or integers to fit functions below. Additional set of packages were loaded at this stage as listed in the `requirements` variable below.
 
@@ -445,18 +445,6 @@ olsrr::ols_vif_tol(model_lm1)
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
 htmltools::includeHTML("dataMaid_dataset_tidy.html")
-```
-
-```{r, message=FALSE, warning=FALSE, error=FALSE}
-library(gvlma)
-gvmodel <- gvlma(model_lm1)
-summary(gvmodel)
-gvmodel_del <- deletion.gvlma(gvmodel)
-summary(gvmodel_del)
-plot(gvmodel_del)
-display.delstats
-summary.gvlmaDel
-summary(gvmodel_del, allstats = FALSE)
 ```
 
 # Task 2
