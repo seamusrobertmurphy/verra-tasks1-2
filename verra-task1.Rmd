@@ -11,7 +11,6 @@ always_allow_html: true
 ---
 
 ```{r setup, include=FALSE, message = FALSE, warning=FALSE, error=FALSE}
-options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 library(readxl)
 library(magrittr)
 library(janitor)
@@ -33,6 +32,8 @@ library(animation)
 library(htmltools)
 library(gtsummary)
 library(data.table)
+library(htmltools)
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 knitr::opts_chunk$set(
   echo = TRUE, message = FALSE, warning = FALSE,
   error = FALSE, comment = NA, tidy.opts = list(width.cutoff = 60), tidy = "styler"
@@ -93,9 +94,9 @@ dataset_tidy
 
 ## 1.2 Audit Data
 
-Examine structure, scan for errors, and save `dataMaid` audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
+Examine structure, scan for errors, and save audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=TRUE}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=T}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
@@ -109,7 +110,7 @@ saveHTML(dataMaid::makeDataReport(
 ))
 ```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE, echo=FALSE}
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```
@@ -431,15 +432,15 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-+-------+-------+-------+-------+-------+-------+--------------------------------+
-|       |       | Model | SW    | BP    | BF    | stratum_i_VIF \| species_j_VIF |
-+-------+-------+-------+-------+-------+-------+--------------------------------+
-| M1    | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131                          |
-+-------+-------+-------+-------+-------+-------+--------------------------------+
-| M2    |       |       |       |       |       |                                |
-+-------+-------+-------+-------+-------+-------+--------------------------------+
-| M3    |       |       |       |       |       |                                |
-+-------+-------+-------+-------+-------+-------+--------------------------------+
++-------+-------+-------+-------+-------+-------+----------------+
+|       |       | Model | SW    | BP    | BF    | species_j_VIF  |
++-------+-------+-------+-------+-------+-------+----------------+
+| M1    | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131          |
++-------+-------+-------+-------+-------+-------+----------------+
+| M2    |       |       |       |       |       |                |
++-------+-------+-------+-------+-------+-------+----------------+
+| M3    |       |       |       |       |       |                |
++-------+-------+-------+-------+-------+-------+----------------+
 
 ## Appendix I: Codebook Derived {#appendix1}
 
