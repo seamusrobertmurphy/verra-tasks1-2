@@ -3,11 +3,10 @@ title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solut
 author: "SMurphy"
 date: "2023-12-04"
 output: 
-  html_document:
+  github_document:
     toc: TRUE
     toc_depth: 5
     df_print: tibble
-    keep_md: TRUE
 always_allow_html: true
 ---
 
