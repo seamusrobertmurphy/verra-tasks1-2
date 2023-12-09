@@ -1032,7 +1032,7 @@ estimated in m<sup>3</sup> as follows:
 
 <br>
 
-                                                     $V_{j,i|BSL} = \sum_{l = 1}^{L} V_{l,j,i,sp}$
+$V_{j,i|BSL} = \sum_{l = 1}^{L} V_{l,j,i,sp}$
 
 <br>
 
@@ -1072,7 +1072,7 @@ of merchantable timber volume of a species at the stratum level:
 
 <br>
 
-                                                 $V_{j,i|BSL} = \displaystyle \frac{1}{SP} \sum_{sp=1}^{sp} \displaystyle \frac{V_{j,i,sp}}{A_{sp}}$
+$V_{j,i|BSL} = \displaystyle \frac{1}{SP} \sum_{sp=1}^{sp} \displaystyle \frac{V_{j,i,sp}}{A_{sp}}$
 
 <br>
 
@@ -1131,7 +1131,7 @@ calculation, as indicated in following two equations
 
 <br>
 
-                            $C_{HB,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * BCEF_{R} * CF_{j}$
+$C_{HB,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * BCEF_{R} * CF_{j}$
 
 <br>
 
@@ -1180,7 +1180,7 @@ hectare tC.ha<sup>-1</sup> using the following formula:
 
 <br>
 
-                                  $C_{EX,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * D_{j} * CF_{j}$
+$C_{EX,j,i|BSL} = (V_{EX,j,i|BSL} + V_{EX,INF,j,i|BSL} ) * D_{j} * CF_{j}$
 
 <br>
 
