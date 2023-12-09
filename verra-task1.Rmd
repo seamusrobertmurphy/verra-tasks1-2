@@ -100,7 +100,7 @@ dataset_tidy
 
 Examine structure, scan for errors, and save audit report for input to codebook ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=T}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=F}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
@@ -114,7 +114,7 @@ saveHTML(dataMaid::makeDataReport(
 ))
 ```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F, eval=FALSE}
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F, eval=T}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```
@@ -451,7 +451,7 @@ olsrr::ols_vif_tol(model_lm1)
 Output of auto-generated  audit also stored in working directory as `dataMaid_dataset_tidy.pdf`
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-htmltools::includeHTML("dataMaid_dataset_tidy.html")
+knitr::include_graphics("dataMaid_dataset_tidy.html")
 ```
 
 # Task 2
