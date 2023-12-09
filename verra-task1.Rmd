@@ -3,11 +3,11 @@ title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solut
 author: "SMurphy"
 date: "2023-12-04"
 output: 
-  html_document:
+  github_document:
     toc: TRUE
     toc_depth: 5
     df_print: tibble
-    keep_md: TRUE
+    keep_html: TRUE
 
 always_allow_html: true
 ---
@@ -435,12 +435,15 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-|     |       |       |       |       |       |               |
-|-----|-------|-------|-------|-------|-------|---------------|
-|     |       | Model | SW    | BP    | BF    | species_j_VIF |
-| M1  | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131         |
-| M2  |       |       |       |       |       |               |
-| M3  |       |       |       |       |       |               |
++--------+--------+--------+--------+--------+--------+---------------+
+|        |        | Model  | SW     | BP     | BF     | species_j_VIF |
++--------+--------+--------+--------+--------+--------+---------------+
+| M1     | 0.918  | 0.375  | 0.609  | 1.078  | 1.212  | 1.131         |
++--------+--------+--------+--------+--------+--------+---------------+
+| M2     |        |        |        |        |        |               |
++--------+--------+--------+--------+--------+--------+---------------+
+| M3     |        |        |        |        |        |               |
++--------+--------+--------+--------+--------+--------+---------------+
 
 ## Appendix I: Codebook Derived {#appendix1}
 
