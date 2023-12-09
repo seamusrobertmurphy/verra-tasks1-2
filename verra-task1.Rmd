@@ -33,7 +33,10 @@ library(htmltools)
 library(gtsummary)
 library(data.table)
 library(htmltools)
-options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
+library(latex2exp)
+library(tinytex)
+library(tikzDevice)
+#options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 knitr::opts_chunk$set(
   echo = TRUE, message = FALSE, warning = FALSE,
   error = FALSE, comment = NA, tidy.opts = list(width.cutoff = 60), tidy = "styler"
@@ -96,13 +99,13 @@ dataset_tidy
 
 Examine structure, scan for errors, and save audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=T}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=F}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
 saveHTML(dataMaid::makeDataReport(
   dataset_tidy,
-  output = "html",
+  output = "pdf",
   codebook = TRUE,
   onlyProblematic = TRUE,
   visuals = setVisuals(all = "basicVisual"),
@@ -445,7 +448,8 @@ olsrr::ols_vif_tol(model_lm1)
 ## Appendix I: Codebook Derived {#appendix1}
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-htmltools::includeHTML("dataMaid_dataset_tidy.html")
+knitr::include_graphics("dataMaid_dataset_tidy.pdf")
+#htmltools::includeHTML("dataMaid_dataset_tidy.html")
 ```
 
 # Task 2
