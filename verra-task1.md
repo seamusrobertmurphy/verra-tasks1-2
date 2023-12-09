@@ -2303,10 +2303,10 @@ Output of auto-generated audit also stored in working directory as
 `dataMaid_dataset_tidy.pdf`
 
 ``` r
-knitr::include_graphics("dataMaid_dataset_tidy.html")
+knitr::include_graphics("dataMaid_dataset_tidy.png")
 ```
 
-![](dataMaid_dataset_tidy.html)<!-- -->
+<img src="dataMaid_dataset_tidy.png" width="816" />
 
 # Task 2
 

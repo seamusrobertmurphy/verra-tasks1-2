@@ -450,7 +450,7 @@ olsrr::ols_vif_tol(model_lm1)
 Output of auto-generated  audit also stored in working directory as `dataMaid_dataset_tidy.pdf`
 
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-knitr::include_graphics("dataMaid_dataset_tidy.html")
+knitr::include_graphics("dataMaid_dataset_tidy.png")
 ```
 
 # Task 2
