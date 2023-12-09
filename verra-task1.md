@@ -203,16 +203,6 @@ codebook ([Appendix I](#appendix1)).
 
 ``` r
 str(dataset_tidy)
-dplyr::count(dataset_tidy, Species..j.)
-
-saveHTML(dataMaid::makeDataReport(
-  dataset_tidy,
-  output = "html",
-  codebook = TRUE,
-  onlyProblematic = TRUE,
-  visuals = setVisuals(all = "basicVisual"),
-  replace = TRUE
-))
 ```
 
     'data.frame':   10 obs. of  5 variables:
@@ -221,6 +211,10 @@ saveHTML(dataMaid::makeDataReport(
      $ Species..j.          : chr  "Sp1" "Sp1" "Sp1" "Sp4" ...
      $ Tree..l.             : chr  "t1" "t2" "t3" "t1" ...
      $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36
+
+``` r
+dplyr::count(dataset_tidy, Species..j.)
+```
 
     # A tibble: 6 × 2
       Species..j.     n
@@ -231,6 +225,17 @@ saveHTML(dataMaid::makeDataReport(
     4 Sp4             2
     5 Sp5             1
     6 sp4             1
+
+``` r
+saveHTML(dataMaid::makeDataReport(
+  dataset_tidy,
+  output = "html",
+  codebook = TRUE,
+  onlyProblematic = TRUE,
+  visuals = setVisuals(all = "basicVisual"),
+  replace = TRUE
+))
+```
 
 ## 1.3 Tidy Data
 
@@ -315,7 +320,11 @@ dataset_tidy %>%
   )
 ```
 
-<div id="amxsvjjufh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<!--html_preserve-->
+
+<div id="amxsvjjufh"
+style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
 <style>#amxsvjjufh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
@@ -705,103 +714,309 @@ dataset_tidy %>%
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    &#10;    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp1&lt;/strong&gt;, N = 4&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Sp1</strong>, N = 4<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp2&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Sp2</strong>, N = 1<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp3&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Sp3</strong>, N = 1<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp4&lt;/strong&gt;, N = 3&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Sp4</strong>, N = 3<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp5&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Sp5</strong>, N = 1<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="label" class="gt_row gt_left">Strata</td>
-<td headers="stat_1" class="gt_row gt_center"><br /></td>
-<td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="stat_3" class="gt_row gt_center"><br /></td>
-<td headers="stat_4" class="gt_row gt_center"><br /></td>
-<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_1" class="gt_row gt_center">3 / 4 (75%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">2 / 3 (67%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    2</td>
-<td headers="stat_1" class="gt_row gt_center">1 / 4 (25%)</td>
-<td headers="stat_2" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_3" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_4" class="gt_row gt_center">1 / 3 (33%)</td>
-<td headers="stat_5" class="gt_row gt_center">1 / 1 (100%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">Plot ID#</td>
-<td headers="stat_1" class="gt_row gt_center"><br /></td>
-<td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="stat_3" class="gt_row gt_center"><br /></td>
-<td headers="stat_4" class="gt_row gt_center"><br /></td>
-<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_1" class="gt_row gt_center">4 / 4 (100%)</td>
-<td headers="stat_2" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_3" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_4" class="gt_row gt_center">1 / 3 (33%)</td>
-<td headers="stat_5" class="gt_row gt_center">1 / 1 (100%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    2</td>
-<td headers="stat_1" class="gt_row gt_center">0 / 4 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">2 / 3 (67%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">Tree ID#</td>
-<td headers="stat_1" class="gt_row gt_center"><br /></td>
-<td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="stat_3" class="gt_row gt_center"><br /></td>
-<td headers="stat_4" class="gt_row gt_center"><br /></td>
-<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    t1</td>
-<td headers="stat_1" class="gt_row gt_center">2 / 4 (50%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">1 / 3 (33%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    t2</td>
-<td headers="stat_1" class="gt_row gt_center">1 / 4 (25%)</td>
-<td headers="stat_2" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">1 / 3 (33%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    t3</td>
-<td headers="stat_1" class="gt_row gt_center">1 / 4 (25%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">1 / 1 (100%)</td>
-<td headers="stat_4" class="gt_row gt_center">0 / 3 (0%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    t4</td>
-<td headers="stat_1" class="gt_row gt_center">0 / 4 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">1 / 3 (33%)</td>
-<td headers="stat_5" class="gt_row gt_center">0 / 1 (0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    t5</td>
-<td headers="stat_1" class="gt_row gt_center">0 / 4 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_3" class="gt_row gt_center">0 / 1 (0%)</td>
-<td headers="stat_4" class="gt_row gt_center">0 / 3 (0%)</td>
-<td headers="stat_5" class="gt_row gt_center">1 / 1 (100%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">Biomass Volume (m3)</td>
-<td headers="stat_1" class="gt_row gt_center">3.4 (1.5)</td>
-<td headers="stat_2" class="gt_row gt_center">3.2 (NA)</td>
-<td headers="stat_3" class="gt_row gt_center">3.7 (NA)</td>
-<td headers="stat_4" class="gt_row gt_center">2.0 (0.8)</td>
-<td headers="stat_5" class="gt_row gt_center">3.4 (NA)</td></tr>
-  </tbody>
-  &#10;  <tfoot class="gt_footnotes">
-    <tr>
-      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> n / N (%); Mean (SD)</td>
-    </tr>
-  </tfoot>
+<thead>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;">
+<strong>Characteristic</strong>
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp1&lt;/strong&gt;, N = 4&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
+<strong>Sp1</strong>, N = 4<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp2&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
+<strong>Sp2</strong>, N = 1<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp3&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
+<strong>Sp3</strong>, N = 1<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp4&lt;/strong&gt;, N = 3&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
+<strong>Sp4</strong>, N = 3<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Sp5&lt;/strong&gt;, N = 1&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
+<strong>Sp5</strong>, N = 1<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="label" class="gt_row gt_left">
+Strata
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+<br />
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    1
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+3 / 4 (75%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+2 / 3 (67%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    2
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+1 / 4 (25%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+1 / 3 (33%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+Plot ID#
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+<br />
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    1
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+4 / 4 (100%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+1 / 3 (33%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    2
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+0 / 4 (0%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+2 / 3 (67%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+Tree ID#
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+<br />
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+<br />
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    t1
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+2 / 4 (50%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+1 / 3 (33%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    t2
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+1 / 4 (25%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+1 / 3 (33%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    t3
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+1 / 4 (25%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+0 / 3 (0%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    t4
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+0 / 4 (0%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+1 / 3 (33%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+    t5
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+0 / 4 (0%)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+0 / 1 (0%)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+0 / 3 (0%)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+1 / 1 (100%)
+</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">
+Biomass Volume (m3)
+</td>
+<td headers="stat_1" class="gt_row gt_center">
+3.4 (1.5)
+</td>
+<td headers="stat_2" class="gt_row gt_center">
+3.2 (NA)
+</td>
+<td headers="stat_3" class="gt_row gt_center">
+3.7 (NA)
+</td>
+<td headers="stat_4" class="gt_row gt_center">
+2.0 (0.8)
+</td>
+<td headers="stat_5" class="gt_row gt_center">
+3.4 (NA)
+</td>
+</tr>
+</tbody>
+<tfoot class="gt_footnotes">
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks"
+style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span>
+n / N (%); Mean (SD)
+</td>
+</tr>
+</tfoot>
 </table>
+
 </div>
+
+<!--/html_preserve-->
 
 ``` r
 write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)

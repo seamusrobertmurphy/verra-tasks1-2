@@ -44,7 +44,7 @@ library(ggplot2)
 library(janitor)
 library(magrittr)
 library(readxl)
-dataMaid::makeDataReport(dataset_tidy, output = "pdf", codebook = TRUE, 
+dataMaid::makeDataReport(dataset_tidy, output = "html", codebook = TRUE, 
     onlyProblematic = TRUE, visuals = setVisuals(all = "basicVisual"), 
     replace = TRUE)
 ## R version 4.3.2 (2023-10-31)
