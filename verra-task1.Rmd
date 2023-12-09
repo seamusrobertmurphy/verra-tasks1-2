@@ -3,10 +3,11 @@ title: 'Technical Exercise for Program Officer Candidate; Verra Technology Solut
 author: "SMurphy"
 date: "2023-12-04"
 output: 
-  github_document:
+  html_document:
     toc: TRUE
     toc_depth: 5
     df_print: tibble
+    keep_md: TRUE
 always_allow_html: true
 ---
 
@@ -97,7 +98,7 @@ dataset_tidy
 
 ## 1.2 Audit Data
 
-Examine structure, scan for errors, and save audit report for later use in drafting codebook and instruction list ([Appendix I](#appendix1)).
+Examine structure, scan for errors, and save audit report for input to codebook ([Appendix I](#appendix1)).
 
 ```{r,message=FALSE, error=FALSE, warning=FALSE, eval=F}
 str(dataset_tidy)
@@ -447,9 +448,10 @@ olsrr::ols_vif_tol(model_lm1)
 
 ## Appendix I: Codebook Derived {#appendix1}
 
+Output of auto-generated  audit also stored in working directory as `dataMaid_dataset_tidy.pdf`
+
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
-knitr::include_graphics("dataMaid_dataset_tidy.pdf")
-#htmltools::includeHTML("dataMaid_dataset_tidy.html")
+htmltools::includeHTML("dataMaid_dataset_tidy.html")
 ```
 
 # Task 2
