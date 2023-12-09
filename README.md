@@ -203,6 +203,16 @@ codebook ([Appendix I](#appendix1)).
 
 ``` r
 str(dataset_tidy)
+dplyr::count(dataset_tidy, Species..j.)
+
+saveHTML(dataMaid::makeDataReport(
+  dataset_tidy,
+  output = "html",
+  codebook = TRUE,
+  onlyProblematic = TRUE,
+  visuals = setVisuals(all = "basicVisual"),
+  replace = TRUE
+))
 ```
 
     'data.frame':   10 obs. of  5 variables:
@@ -211,10 +221,6 @@ str(dataset_tidy)
      $ Species..j.          : chr  "Sp1" "Sp1" "Sp1" "Sp4" ...
      $ Tree..l.             : chr  "t1" "t2" "t3" "t1" ...
      $ Volume..V_.l.j.I.sp..: num  3.3 4.8 4.08 1.5 1.68 1.38 3.24 3.72 2.94 3.36
-
-``` r
-dplyr::count(dataset_tidy, Species..j.)
-```
 
     # A tibble: 6 × 2
       Species..j.     n
@@ -225,17 +231,6 @@ dplyr::count(dataset_tidy, Species..j.)
     4 Sp4             2
     5 Sp5             1
     6 sp4             1
-
-``` r
-saveHTML(dataMaid::makeDataReport(
-  dataset_tidy,
-  output = "html",
-  codebook = TRUE,
-  onlyProblematic = TRUE,
-  visuals = setVisuals(all = "basicVisual"),
-  replace = TRUE
-))
-```
 
 ## 1.3 Tidy Data
 
@@ -301,7 +296,7 @@ dataset_tidy <- dataset_tidy %>%
 
 dataset_tidy %>%
   select(stratum_i, species_j, plot_sp, tree_l, volume) %>%
-  tbl_summary(
+  gtsummary::tbl_summary(
     by = species_j,
     statistic = list(
       all_continuous() ~ "{mean} ({sd})",

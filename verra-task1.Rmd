@@ -33,9 +33,6 @@ library(htmltools)
 library(gtsummary)
 library(data.table)
 library(htmltools)
-library(latex2exp)
-library(tinytex)
-library(tikzDevice)
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 knitr::opts_chunk$set(
   echo = TRUE, message = FALSE, warning = FALSE,
@@ -99,7 +96,7 @@ dataset_tidy
 
 Examine structure, scan for errors, and save audit report for input to codebook ([Appendix I](#appendix1)).
 
-```{r,message=FALSE, error=FALSE, warning=FALSE, eval=T}
+```{r,message=FALSE, error=FALSE, warning=FALSE, eval=F}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 
@@ -113,7 +110,7 @@ saveHTML(dataMaid::makeDataReport(
 ))
 ```
 
-```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F, eval=F}
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=F, eval=T}
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```
@@ -171,7 +168,7 @@ dataset_tidy <- dataset_tidy %>%
 
 dataset_tidy %>%
   select(stratum_i, species_j, plot_sp, tree_l, volume) %>%
-  tbl_summary(
+  gtsummary::tbl_summary(
     by = species_j,
     statistic = list(
       all_continuous() ~ "{mean} ({sd})",
