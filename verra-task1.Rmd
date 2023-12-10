@@ -120,7 +120,7 @@ dplyr::count(dataset_tidy, Species..j.)
 
 ## 1.3 Tidy Data
 
-Tests identified one problematic entry in values of `Species..j.` variable and multiple naming issues inherited during data import. Variable relabelling ws carried out according to naming convention stated in exercise document, the symbology used in subsection equations 1-4 of 8.1.1 of the [VM0010 Verra Methodology](https://verra.org/wp-content/uploads/2018/03/VM0010-Methodology-for-IMF-LtPF-v1.3_0.pdf), and syntax standards provided in the [Tidyverse style guide](https://style.tidyverse.org/). This involved the following changes.
+Tests identified one problematic entry in values of `Species..j.` variable and multiple naming issues inherited during data import. Variable relabelling was carried out according to naming convention stated in exercise document, the symbology used in equations 1-4 of subsection 8.1.1 of the [VM0010 Verra Methodology](https://verra.org/wp-content/uploads/2018/03/VM0010-Methodology-for-IMF-LtPF-v1.3_0.pdf), and syntax standards provided in the [Tidyverse style guide](https://style.tidyverse.org/). This involved the following changes.
 
 -   Correct the case-sensitive error from `sp4` to `Sp4`.
 -   Convert or recode variables to reflec their class
