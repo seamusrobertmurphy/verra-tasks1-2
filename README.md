@@ -31,9 +31,7 @@ greenhouse gas (GHG) emissions reduction. The objective is to illustrate
 the process outlined in the VCS Methodology, specifically VM0010, with
 an emphasis on simplicity of tool design over burdensome complexity. The
 chosen subsection for digitalization is “8.1.1 Calculation of carbon
-stocks in commercial timber volumes”. A condensed script including only
-essential functions of this tool is reproduced in [Appendix
-I](#appendix1).
+stocks in commercial timber volumes”.
 
 A number of empricial assumptions were made including sourcing of
 pre-existing inventory dataset with pre-defined format and values

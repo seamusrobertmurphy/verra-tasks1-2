@@ -47,7 +47,7 @@ knitr::opts_chunk$set(
 
 ***Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010***
 
-The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes". A condensed script including only essential functions of this tool is reproduced in [Appendix I](#appendix1).
+The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes". 
 
 A number of empricial assumptions were made including sourcing of pre-existing inventory dataset with pre-defined format and values published in the exercise's document ('Program Officer Technology Solutions Seamus Murphy'). Using this table of observations, an excel spreadsheet was copied into and imported into an R environment as the dataframe '`dataset_raw'` and commited to the project's github repository [here](https://github.com/seamusrobertmurphy/verra-stage1-GHG-tool.git). In this original, unchanged dataset, assumptions of values can be viewed regarding sample strata, plot, species, tree, volume, species wood characteristics, and plot area.
 
