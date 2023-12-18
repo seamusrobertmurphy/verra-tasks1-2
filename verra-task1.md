@@ -39,8 +39,7 @@ published in the exercise’s document (‘Program Officer Technology
 Solutions Seamus Murphy’). Using this table of observations, an excel
 spreadsheet was copied into and imported into an R environment as the
 dataframe ’`dataset_raw'` and commited to the project’s github
-repository
-[here](https://github.com/seamusrobertmurphy/verra-stage1-GHG-tool.git).
+repository [here](https://github.com/seamusrobertmurphy/verra-tasks1-2).
 In this original, unchanged dataset, assumptions of values can be viewed
 regarding sample strata, plot, species, tree, volume, species wood
 characteristics, and plot area.
@@ -1433,11 +1432,7 @@ from the above dataset and deployed to generate predictions of total
 standing timber over a site area of 100 hectares. From these
 predictions, derived residuals were acquired to showcase a number of
 diagnostic tools and accuracy metrics relevant to forest inventory
-analyses. This was a specifically diagnostic exercise not suited to
-informing or adjusting biomass estimates above. Instead this short
-test-run reported on techniques used in cross validation and tuning
-functions, encouraging discussion of model comparison and selections by
-potential clients.
+analyses.
 
 Candidate models were then trained, tuned, and analysed using the
 10k-fold cross-validation technique (10-repeat). This method was used to
@@ -1447,9 +1442,11 @@ used to explore levels of precision in terms of the variation of results
 (RMSE). Using DescTools package in R, Theil’s U estimate of error also
 examined level of unexplained variance in each model.
 
-Variables were recoded as numerics or integers to fit functions below.
-Additional set of packages were loaded at this stage as listed in the
-`requirements` variable below.
+This stage was specifically focused around a diagnostic exercise,
+reporting on techniques used in cross validation, tuning functions, and
+predictor evaluation. For quicker review, sample results from the
+following code chunks were gathered and presented in the three tables
+directly below.
 
 |              |          |                    |                |              |                  |
 |--------------|----------|--------------------|----------------|--------------|------------------|
@@ -1469,6 +1466,9 @@ Additional set of packages were loaded at this stage as listed in the
 | SVM<sup>*linear*</sup> | 0.083   | 9.324                      | 11.575                      | 53.476                   | 65.683                    |
 | SVM<sup>*radial*</sup> |         |                            |                             |                          |                           |
 | RF<sup>*linear*</sup>  |         |                            |                             |                          |                           |
+
+An additional set of packages used in this stage were loaded as listed
+in the `requirements` variable below.
 
 ``` r
 requirements <- install.packages(
