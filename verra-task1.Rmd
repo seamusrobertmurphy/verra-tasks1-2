@@ -47,7 +47,7 @@ knitr::opts_chunk$set(
 
 ***Prototype Tool for Quantifying GHG in Standing Timber Using VSC-Methodology-VM0010***
 
-The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes". 
+The following workflow was used to test a prototype tool for quantifying greenhouse gas (GHG) emissions reduction. The objective is to illustrate the process outlined in the VCS Methodology, specifically VM0010, with an emphasis on simplicity of tool design over burdensome complexity. The chosen subsection for digitalization is "8.1.1 Calculation of carbon stocks in commercial timber volumes".
 
 A number of empricial assumptions were made including sourcing of pre-existing inventory dataset with pre-defined format and values published in the exercise's document ('Program Officer Technology Solutions Seamus Murphy'). Using this table of observations, an excel spreadsheet was copied into and imported into an R environment as the dataframe '`dataset_raw'` and commited to the project's github repository [here](https://github.com/seamusrobertmurphy/verra-stage1-GHG-tool.git). In this original, unchanged dataset, assumptions of values can be viewed regarding sample strata, plot, species, tree, volume, species wood characteristics, and plot area.
 
@@ -386,6 +386,7 @@ library(caret)
 library(BIOMASS)
 library(rvest)
 library(lmfor)
+library(caret)
 # requirements
 ```
 
@@ -401,17 +402,23 @@ olsrr::ols_regress(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_ti
 # psych::describe(dataset_tidy$species_j)
 # psych::describe(dataset_tidy$stratum_i)
 
+shapiro.test(dataset_tidy$stratum_i)
+shapiro.test(dataset_tidy$species_j)
 shapiro.test(dataset_tidy$volume)
 shapiro.test(dataset_tidy$vji_ha_m3)
 ```
 
-|              |          |        |        |              |
-|--------------|----------|--------|--------|--------------|
-| **Variable** | **Mean** | **SD** | **SE** | **Skewness** |
-| stratum_i    | 1.5      | 0.53   | 0.17   | 0.00         |
-| species_j    | 2.60     | 1.58   | 0.50   | 0.14         |
-| volume       | 3.00     | 1.15   | 0.36   | 0.36         |
-| vji_ha_m3    | 57.54    | 44.77  | 14.16  | 0.69         |
++--------------+----------+----------+----------+--------------+---------------+
+| **Variable** | **Mean** | **SD**   | **SE**   | **Skewness** | Shapiro-Wilks |
++--------------+----------+----------+----------+--------------+---------------+
+| stratum_i    | 1.5      | 0.53     | 0.17     | 0.00         | \*\*\*        |
++--------------+----------+----------+----------+--------------+---------------+
+| species_j    | 2.60     | 1.58     | 0.50     | 0.14         | \*            |
++--------------+----------+----------+----------+--------------+---------------+
+| volume       | 3.00     | 1.15     | 0.36     | 0.36         |               |
++--------------+----------+----------+----------+--------------+---------------+
+| vji_ha_m3    | 57.54    | 44.77    | 14.16    | 0.69         | \*\*\*        |
++--------------+----------+----------+----------+--------------+---------------+
 
 ```{r,warning=FALSE,message=FALSE,error=FALSE, echo=FALSE, fig.show='hold', out.width='33%'}
 olsrr::ols_plot_diagnostics(model_lm1)
@@ -435,15 +442,85 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-+--------+--------+--------+--------+--------+--------+---------------+
-|        |        | Model  | SW     | BP     | BF     | species_j_VIF |
-+--------+--------+--------+--------+--------+--------+---------------+
-| M1     | 0.918  | 0.375  | 0.609  | 1.078  | 1.212  | 1.131         |
-+--------+--------+--------+--------+--------+--------+---------------+
-| M2     |        |        |        |        |        |               |
-+--------+--------+--------+--------+--------+--------+---------------+
-| M3     |        |        |        |        |        |               |
-+--------+--------+--------+--------+--------+--------+---------------+
++------+-------+-------+-------+-------+-------+-------------+-------------+------------+
+|      |       | Model | SW    | BP    | BF    | stratum_VIF | species_VIF | volume_VIF |
++------+-------+-------+-------+-------+-------+-------------+-------------+------------+
+| M1   | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.078       | 1.212       | 1.131      |
++------+-------+-------+-------+-------+-------+-------------+-------------+------------+
+| M2   |       |       |       |       |       |             |             |            |
++------+-------+-------+-------+-------+-------+-------------+-------------+------------+
+| M3   |       |       |       |       |       |             |             |            |
++------+-------+-------+-------+-------+-------+-------------+-------------+------------+
+
+Models were analysed using the 10k-fold cross-validation technique (3-repeat). This method was used to present estimates of model bias between training sample and test sample for potential use in actual biomass estimation. It was also used to explore levels of precision in terms of the variation of results (RMSE). Using DescTools package in R, Theil's U estimate of error also examined level of unexplained variance in each model.
+
+```{r, warning=FALSE, message=FALSE, error=FALSE}
+# Split training and test data
+dataset_tidy.samples <- createDataPartition(dataset_tidy$vji_ha_m3, p=0.70, list = FALSE)
+dataset_tidy.train <- dataset_tidy[dataset_tidy.samples, ]
+dataset_tidy.test <- dataset_tidy[-dataset_tidy.samples, ]
+```
+
+```{r, warning=FALSE, message=FALSE, error=FALSE}
+# Set training regime
+model_training_10kfold <- trainControl(method = "repeatedcv", 
+                                       number = 10, repeats = 10)
+# animation of 10-kfold method:
+knitr::include_graphics(path = "animation.gif")
+```
+
+```{r, warning=FALSE, message=FALSE, error=FALSE}
+# Train full and test models: support vector machine*linear
+svm_linear_train <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                          data = dataset_tidy.train,
+                          method = "svmLinear",
+                          trControl = model_training_10kfold,
+                          preProcess = c("center", "scale"),
+                          tuneLength = 10
+                          )
+
+svm_linear_full <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                          data = dataset_tidy,
+                          method = "svmLinear",
+                          trControl = model_training_10kfold,
+                          preProcess = c("center", "scale"),
+                          tuneLength = 10
+                          )
+
+# Train full and test models: randomForest regression tree
+rf_train <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                  data = dataset_tidy.train,
+                  method = "rf", ntree = 1000,
+                  metric = "RMSE",
+                  trControl = model_training_10kfold,
+                  importance = TRUE
+                  )
+
+
+```
+
+```{r, warning=FALSE, message=FALSE, error=FALSE}
+svm_linear_full_pred <- predict(svm_linear_full, data = dataset_tidy)
+svm_linear_full_pred_mae <- mae(svm_linear_full_pred, dataset_tidy$vji_ha_m3)
+svm_linear_full_pred_mae
+svm_linear_full_pred_rmse <- rmse(svm_linear_full_pred, dataset_tidy$vji_ha_m3)
+svm_linear_full_pred_rmse
+#TheilU(dataset_tidy$vji_ha_m3, svm_linear_full_pred, type = 2)
+TheilU(dataset_tidy$vji_ha_m3, svm_linear_full_pred, type = 1)
+
+svm_linear_test_pred <- predict(svm_linear_train, data = dataset_tidy.test)
+svm_linear_test_pred_mae <- mae(svm_linear_test_pred, dataset_tidy.test$vji_ha_m3)
+svm_linear_test_pred_mae
+svm_linear_test_pred_rmse <- rmse(svm_linear_test_pred, dataset_tidy.test$vji_ha_m3)
+svm_linear_test_pred_rmse
+svm_linear_test_pred_rmse / svm_linear_full_pred_rmse
+```
+
+| Model         | Theil U | MAE^*full.model*^  | RMSE^*full.model*^  | MAE^*cv.model*^  | RMSE^*cv.model*^  |
+|---------------|---------|--------------------|---------------------|------------------|-------------------|
+| SVM^*linear*^ | 0.083   | 9.324              | 11.575              | 53.476           | 65.683            |
+| SVM^*radial*^ |         |                    |                     |                  |                   |
+| RF^*linear*^  |         |                    |                     |                  |                   |
 
 ## Appendix I: Codebook Derived {#appendix1}
 
