@@ -234,9 +234,9 @@ saveHTML(dataMaid::makeDataReport(
 
 Tests identified one problematic entry in values of `Species..j.`
 variable and multiple naming issues inherited during data import.
-Variable relabelling ws carried out according to naming convention
-stated in exercise document, the symbology used in subsection equations
-1-4 of 8.1.1 of the [VM0010 Verra
+Variable relabelling was carried out according to naming convention
+stated in exercise document, the symbology used in equations 1-4 of
+subsection 8.1.1 of the [VM0010 Verra
 Methodology](https://verra.org/wp-content/uploads/2018/03/VM0010-Methodology-for-IMF-LtPF-v1.3_0.pdf),
 and syntax standards provided in the [Tidyverse style
 guide](https://style.tidyverse.org/). This involved the following
@@ -2138,9 +2138,36 @@ test-run reported on techniques used in cross validation and tuning
 functions, encouraging discussion of model comparison and selections by
 potential clients.
 
+Candidate models were then trained, tuned, and analysed using the
+10k-fold cross-validation technique (10-repeat). This method was used to
+present proposed estimates of model bias between training sample and
+test sample for potential use in actual biomass estimation. It was also
+used to explore levels of precision in terms of the variation of results
+(RMSE). Using DescTools package in R, Theil’s U estimate of error also
+examined level of unexplained variance in each model.
+
 Variables were recoded as numerics or integers to fit functions below.
 Additional set of packages were loaded at this stage as listed in the
 `requirements` variable below.
+
+|              |          |                    |                |              |                  |
+|--------------|----------|--------------------|----------------|--------------|------------------|
+| **Variable** | **Mean** | **Std. Deviation** | **Std. Error** | **Skewness** | **Shapiro-Wilk** |
+| stratum_i    | 1.5      | 0.53               | 0.17           | 0.00         | \*\*\*           |
+| species_j    | 2.60     | 1.58               | 0.50           | 0.14         | \*               |
+| volume       | 3.00     | 1.15               | 0.36           | 0.36         |                  |
+| vji_ha_m3    | 57.54    | 44.77              | 14.16          | 0.69         | \*\*\*           |
+
+|                    |                   |                |                 |                 |                |
+|--------------------|-------------------|----------------|-----------------|-----------------|----------------|
+|                    | **Breusch Pagan** | **Bonferroni** | **stratum_VIF** | **species_VIF** | **volume_VIF** |
+| M1<sup>*OLS*</sup> | 1.078             | 1.212          | 1.078           | 1.212           | 1.131          |
+
+| Model                  | Theil U | MAE<sup>*full.model*</sup> | RMSE<sup>*full.model*</sup> | MAE<sup>*cv.model*</sup> | RMSE<sup>*cv.model*</sup> |
+|------------------------|---------|----------------------------|-----------------------------|--------------------------|---------------------------|
+| SVM<sup>*linear*</sup> | 0.083   | 9.324                      | 11.575                      | 53.476                   | 65.683                    |
+| SVM<sup>*radial*</sup> |         |                            |                             |                          |                           |
+| RF<sup>*linear*</sup>  |         |                            |                             |                          |                           |
 
 ``` r
 requirements <- install.packages(
@@ -2200,6 +2227,26 @@ olsrr::ols_regress(vji_ha_m3 ~ volume + species_j + stratum_i, data = dataset_ti
 # psych::describe(dataset_tidy$species_j)
 # psych::describe(dataset_tidy$stratum_i)
 
+shapiro.test(dataset_tidy$stratum_i)
+```
+
+
+        Shapiro-Wilk normality test
+
+    data:  dataset_tidy$stratum_i
+    W = 0.65527, p-value = 0.000254
+
+``` r
+shapiro.test(dataset_tidy$species_j)
+```
+
+
+        Shapiro-Wilk normality test
+
+    data:  dataset_tidy$species_j
+    W = 0.83827, p-value = 0.04207
+
+``` r
 shapiro.test(dataset_tidy$volume)
 ```
 
@@ -2219,13 +2266,13 @@ shapiro.test(dataset_tidy$vji_ha_m3)
     data:  dataset_tidy$vji_ha_m3
     W = 0.69994, p-value = 0.0008795
 
-|              |          |        |        |              |
-|--------------|----------|--------|--------|--------------|
-| **Variable** | **Mean** | **SD** | **SE** | **Skewness** |
-| stratum_i    | 1.5      | 0.53   | 0.17   | 0.00         |
-| species_j    | 2.60     | 1.58   | 0.50   | 0.14         |
-| volume       | 3.00     | 1.15   | 0.36   | 0.36         |
-| vji_ha_m3    | 57.54    | 44.77  | 14.16  | 0.69         |
+|              |          |        |        |              |                  |
+|--------------|----------|--------|--------|--------------|------------------|
+| **Variable** | **Mean** | **SD** | **SE** | **Skewness** | **Shapiro-Wilk** |
+| stratum_i    | 1.5      | 0.53   | 0.17   | 0.00         | \*\*\*           |
+| species_j    | 2.60     | 1.58   | 0.50   | 0.14         | \*               |
+| volume       | 3.00     | 1.15   | 0.36   | 0.36         |                  |
+| vji_ha_m3    | 57.54    | 44.77  | 14.16  | 0.69         | \*\*\*           |
 
     -----------------------------------------------
            Test             Statistic       pvalue  
@@ -2283,12 +2330,108 @@ shapiro.test(dataset_tidy$vji_ha_m3)
 
 <img src="verra-task1_files/figure-gfm/unnamed-chunk-14-1.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-2.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-3.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-4.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-5.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-6.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-7.png" width="33%" />
 
-|     |       |       |       |       |       |               |
-|-----|-------|-------|-------|-------|-------|---------------|
-|     |       | Model | SW    | BP    | BF    | species_j_VIF |
-| M1  | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.131         |
-| M2  |       |       |       |       |       |               |
-| M3  |       |       |       |       |       |               |
+|                    |                   |                |                 |                 |                |
+|--------------------|-------------------|----------------|-----------------|-----------------|----------------|
+|                    | **Breusch Pagan** | **Bonferroni** | **stratum_VIF** | **species_VIF** | **volume_VIF** |
+| M1<sup>*OLS*</sup> | 1.078             | 1.212          | 1.078           | 1.212           | 1.131          |
+
+Comparing model performances using cross validation.
+
+``` r
+# Split training and test data
+dataset_tidy.samples <- createDataPartition(dataset_tidy$vji_ha_m3, p=0.70, list = FALSE)
+dataset_tidy.train <- dataset_tidy[dataset_tidy.samples, ]
+dataset_tidy.test <- dataset_tidy[-dataset_tidy.samples, ]
+```
+
+``` r
+# Set training regime
+model_training_10kfold <- trainControl(method = "repeatedcv", 
+                                       number = 10, repeats = 10)
+# animation of 10-kfold method:
+knitr::include_graphics(path = "animation.gif")
+```
+
+![](animation.gif)<!-- -->
+
+``` r
+# Train full and test models: support vector machine*linear
+svm_linear_train <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                          data = dataset_tidy.train,
+                          method = "svmLinear",
+                          trControl = model_training_10kfold,
+                          preProcess = c("center", "scale"),
+                          tuneLength = 10
+                          )
+
+svm_linear_full <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                          data = dataset_tidy,
+                          method = "svmLinear",
+                          trControl = model_training_10kfold,
+                          preProcess = c("center", "scale"),
+                          tuneLength = 10
+                          )
+
+# Train full and test models: randomForest regression tree
+rf_train <- train(vji_ha_m3 ~ volume + species_j + stratum_i, 
+                  data = dataset_tidy.train,
+                  method = "rf", ntree = 1000,
+                  metric = "RMSE",
+                  trControl = model_training_10kfold,
+                  importance = TRUE
+                  )
+```
+
+    note: only 2 unique complexity parameters in default grid. Truncating the grid to 2 .
+
+``` r
+svm_linear_full_pred <- predict(svm_linear_full, data = dataset_tidy)
+svm_linear_full_pred_mae <- mae(svm_linear_full_pred, dataset_tidy$vji_ha_m3)
+svm_linear_full_pred_mae
+```
+
+    [1] 9.323846
+
+``` r
+svm_linear_full_pred_rmse <- rmse(svm_linear_full_pred, dataset_tidy$vji_ha_m3)
+svm_linear_full_pred_rmse
+```
+
+    [1] 11.5753
+
+``` r
+#TheilU(dataset_tidy$vji_ha_m3, svm_linear_full_pred, type = 2)
+TheilU(dataset_tidy$vji_ha_m3, svm_linear_full_pred, type = 1)
+```
+
+    [1] 0.08325566
+
+``` r
+svm_linear_test_pred <- predict(svm_linear_train, data = dataset_tidy.test)
+svm_linear_test_pred_mae <- mae(svm_linear_test_pred, dataset_tidy.test$vji_ha_m3)
+svm_linear_test_pred_mae
+```
+
+    [1] NaN
+
+``` r
+svm_linear_test_pred_rmse <- rmse(svm_linear_test_pred, dataset_tidy.test$vji_ha_m3)
+svm_linear_test_pred_rmse
+```
+
+    [1] NaN
+
+``` r
+svm_linear_test_pred_rmse / svm_linear_full_pred_rmse
+```
+
+    [1] NaN
+
+| Model                  | Theil U | MAE<sup>*full.model*</sup> | RMSE<sup>*full.model*</sup> | MAE<sup>*cv.model*</sup> | RMSE<sup>*cv.model*</sup> |
+|------------------------|---------|----------------------------|-----------------------------|--------------------------|---------------------------|
+| SVM<sup>*linear*</sup> | 0.083   | 9.324                      | 11.575                      | 53.476                   | 65.683                    |
+| SVM<sup>*radial*</sup> |         |                            |                             |                          |                           |
+| RF<sup>*linear*</sup>  |         |                            |                             |                          |                           |
 
 ## Appendix I: Codebook Derived
 

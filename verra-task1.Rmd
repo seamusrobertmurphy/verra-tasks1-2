@@ -358,7 +358,33 @@ write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
 
 [*Section unfinished!:*]{.underline} For demonstration purposes only, an ordinary-least-squared (OLS) model was fitted with unscreened covariates from the above dataset and deployed to generate predictions of total standing timber over a site area of 100 hectares. From these predictions, derived residuals were acquired to showcase a number of diagnostic tools and accuracy metrics relevant to forest inventory analyses. This was a specifically diagnostic exercise not suited to informing or adjusting biomass estimates above. Instead this short test-run reported on techniques used in cross validation and tuning functions, encouraging discussion of model comparison and selections by potential clients.
 
+Candidate models were then trained, tuned, and analysed using the 10k-fold cross-validation technique (10-repeat). This method was used to present proposed estimates of model bias between training sample and test sample for potential use in actual biomass estimation. It was also used to explore levels of precision in terms of the variation of results (RMSE). Using DescTools package in R, Theil's U estimate of error also examined level of unexplained variance in each model.
+
 Variables were recoded as numerics or integers to fit functions below. Additional set of packages were loaded at this stage as listed in the `requirements` variable below.
+
++--------------+----------+---------------------+-----------------+--------------+------------------+
+| **Variable** | **Mean** | **Std. Deviation**  | **Std. Error**  | **Skewness** | **Shapiro-Wilk** |
++--------------+----------+---------------------+-----------------+--------------+------------------+
+| stratum_i    | 1.5      | 0.53                | 0.17            | 0.00         | \*\*\*           |
++--------------+----------+---------------------+-----------------+--------------+------------------+
+| species_j    | 2.60     | 1.58                | 0.50            | 0.14         | \*               |
++--------------+----------+---------------------+-----------------+--------------+------------------+
+| volume       | 3.00     | 1.15                | 0.36            | 0.36         |                  |
++--------------+----------+---------------------+-----------------+--------------+------------------+
+| vji_ha_m3    | 57.54    | 44.77               | 14.16           | 0.69         | \*\*\*           |
++--------------+----------+---------------------+-----------------+--------------+------------------+
+
++-----------+----------------------+----------------+------------------+-----------------+-----------------+
+|           | **Breusch Pagan**    | **Bonferroni** | **stratum_VIF**  | **species_VIF** | **volume_VIF**  |
++-----------+----------------------+----------------+------------------+-----------------+-----------------+
+| M1^*OLS*^ | 1.078                | 1.212          | 1.078            | 1.212           | 1.131           |
++-----------+----------------------+----------------+------------------+-----------------+-----------------+
+
+| Model         | Theil U | MAE^*full.model*^  | RMSE^*full.model*^  | MAE^*cv.model*^  | RMSE^*cv.model*^  |
+|---------------|---------|--------------------|---------------------|------------------|-------------------|
+| SVM^*linear*^ | 0.083   | 9.324              | 11.575              | 53.476           | 65.683            |
+| SVM^*radial*^ |         |                    |                     |                  |                   |
+| RF^*linear*^  |         |                    |                     |                  |                   |
 
 ```{r, eval=FALSE}
 requirements <- install.packages(
@@ -408,17 +434,17 @@ shapiro.test(dataset_tidy$volume)
 shapiro.test(dataset_tidy$vji_ha_m3)
 ```
 
-+--------------+----------+----------+----------+--------------+---------------+
-| **Variable** | **Mean** | **SD**   | **SE**   | **Skewness** | Shapiro-Wilks |
-+--------------+----------+----------+----------+--------------+---------------+
-| stratum_i    | 1.5      | 0.53     | 0.17     | 0.00         | \*\*\*        |
-+--------------+----------+----------+----------+--------------+---------------+
-| species_j    | 2.60     | 1.58     | 0.50     | 0.14         | \*            |
-+--------------+----------+----------+----------+--------------+---------------+
-| volume       | 3.00     | 1.15     | 0.36     | 0.36         |               |
-+--------------+----------+----------+----------+--------------+---------------+
-| vji_ha_m3    | 57.54    | 44.77    | 14.16    | 0.69         | \*\*\*        |
-+--------------+----------+----------+----------+--------------+---------------+
++--------------+----------+----------+----------+--------------+------------------+
+| **Variable** | **Mean** | **SD**   | **SE**   | **Skewness** | **Shapiro-Wilk** |
++--------------+----------+----------+----------+--------------+------------------+
+| stratum_i    | 1.5      | 0.53     | 0.17     | 0.00         | \*\*\*           |
++--------------+----------+----------+----------+--------------+------------------+
+| species_j    | 2.60     | 1.58     | 0.50     | 0.14         | \*               |
++--------------+----------+----------+----------+--------------+------------------+
+| volume       | 3.00     | 1.15     | 0.36     | 0.36         |                  |
++--------------+----------+----------+----------+--------------+------------------+
+| vji_ha_m3    | 57.54    | 44.77    | 14.16    | 0.69         | \*\*\*           |
++--------------+----------+----------+----------+--------------+------------------+
 
 ```{r,warning=FALSE,message=FALSE,error=FALSE, echo=FALSE, fig.show='hold', out.width='33%'}
 olsrr::ols_plot_diagnostics(model_lm1)
@@ -442,17 +468,13 @@ olsrr::ols_test_outlier(model_lm1)
 olsrr::ols_vif_tol(model_lm1)
 ```
 
-+------+-------+-------+-------+-------+-------+-------------+-------------+------------+
-|      |       | Model | SW    | BP    | BF    | stratum_VIF | species_VIF | volume_VIF |
-+------+-------+-------+-------+-------+-------+-------------+-------------+------------+
-| M1   | 0.918 | 0.375 | 0.609 | 1.078 | 1.212 | 1.078       | 1.212       | 1.131      |
-+------+-------+-------+-------+-------+-------+-------------+-------------+------------+
-| M2   |       |       |       |       |       |             |             |            |
-+------+-------+-------+-------+-------+-------+-------------+-------------+------------+
-| M3   |       |       |       |       |       |             |             |            |
-+------+-------+-------+-------+-------+-------+-------------+-------------+------------+
++-----------+-------------------+----------------+-----------------+-----------------+----------------+
+|           | **Breusch Pagan** | **Bonferroni** | **stratum_VIF** | **species_VIF** | **volume_VIF** |
++-----------+-------------------+----------------+-----------------+-----------------+----------------+
+| M1^*OLS*^ | 1.078             | 1.212          | 1.078           | 1.212           | 1.131          |
++-----------+-------------------+----------------+-----------------+-----------------+----------------+
 
-Models were analysed using the 10k-fold cross-validation technique (3-repeat). This method was used to present estimates of model bias between training sample and test sample for potential use in actual biomass estimation. It was also used to explore levels of precision in terms of the variation of results (RMSE). Using DescTools package in R, Theil's U estimate of error also examined level of unexplained variance in each model.
+Comparing model performances using cross validation.
 
 ```{r, warning=FALSE, message=FALSE, error=FALSE}
 # Split training and test data
