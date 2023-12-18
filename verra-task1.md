@@ -230,6 +230,8 @@ saveHTML(dataMaid::makeDataReport(
     5 Sp5             1
     6 sp4             1
 
+<img src="dataMaid_dataset_tidy.png" width="816" />
+
 ## 1.3 Tidy Data
 
 Tests identified one problematic entry in values of `Species..j.`
@@ -2328,7 +2330,7 @@ shapiro.test(dataset_tidy$vji_ha_m3)
     2 species_j     0.825  1.21
     3 stratum_i     0.928  1.08
 
-<img src="verra-task1_files/figure-gfm/unnamed-chunk-14-1.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-2.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-3.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-4.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-5.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-6.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-14-7.png" width="33%" />
+<img src="verra-task1_files/figure-gfm/unnamed-chunk-15-1.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-2.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-3.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-4.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-5.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-6.png" width="33%" /><img src="verra-task1_files/figure-gfm/unnamed-chunk-15-7.png" width="33%" />
 
 |                    |                   |                |                 |                 |                |
 |--------------------|-------------------|----------------|-----------------|-----------------|----------------|
@@ -2412,20 +2414,20 @@ svm_linear_test_pred_mae <- mae(svm_linear_test_pred, dataset_tidy.test$vji_ha_m
 svm_linear_test_pred_mae
 ```
 
-    [1] NaN
+    [1] 54.41144
 
 ``` r
 svm_linear_test_pred_rmse <- rmse(svm_linear_test_pred, dataset_tidy.test$vji_ha_m3)
 svm_linear_test_pred_rmse
 ```
 
-    [1] NaN
+    [1] 65.94978
 
 ``` r
 svm_linear_test_pred_rmse / svm_linear_full_pred_rmse
 ```
 
-    [1] NaN
+    [1] 5.697456
 
 | Model                  | Theil U | MAE<sup>*full.model*</sup> | RMSE<sup>*full.model*</sup> | MAE<sup>*cv.model*</sup> | RMSE<sup>*cv.model*</sup> |
 |------------------------|---------|----------------------------|-----------------------------|--------------------------|---------------------------|

@@ -117,6 +117,9 @@ saveHTML(dataMaid::makeDataReport(
 str(dataset_tidy)
 dplyr::count(dataset_tidy, Species..j.)
 ```
+```{r, warning=FALSE, error=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics("dataMaid_dataset_tidy.png")
+```
 
 ## 1.3 Tidy Data
 
