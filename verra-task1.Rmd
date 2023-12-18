@@ -170,27 +170,10 @@ dataset_tidy$a_sp_m2 <- dataset_tidy$a_sp * 10000
 
 dataset_tidy <- dataset_tidy %>%
   group_by(stratum_i) %>%
-  mutate(a_I_m2 = sum(a_sp_m2), a_I_ha = sum(a_sp))
+  mutate(a_I_m2 = sum(a_sp_m2), a_I_ha = sum(a_sp)) 
 
-dataset_tidy %>%
-  select(stratum_i, species_j, plot_sp, tree_l, volume) %>%
-  gtsummary::tbl_summary(
-    by = species_j,
-    statistic = list(
-      all_continuous() ~ "{mean} ({sd})",
-      all_categorical() ~ "{n} / {N} ({p}%)"
-    ),
-    digits = all_continuous() ~ 1,
-    type = all_categorical() ~ "categorical",
-    label = list(
-      stratum_i ~ "Strata",
-      species_j ~ "Species",
-      plot_sp ~ "Plot ID#",
-      tree_l ~ "Tree ID#",
-      volume ~ "Biomass Volume (m3)"
-    ),
-    missing_text = "Missing"
-  )
+dataset_tidy
+
 write.csv(dataset_tidy, "dataset_tidy.csv", row.names = FALSE)
 ```
 
